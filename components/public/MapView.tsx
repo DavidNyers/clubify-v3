@@ -234,7 +234,7 @@ export default function MapView({ clubs, bars, events }: MapViewProps) {
       style: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
       center: [viewState.longitude, viewState.latitude],
       zoom: viewState.zoom,
-
+      attributionControl: false,
       fadeDuration: 0
     })
 
@@ -724,6 +724,50 @@ export default function MapView({ clubs, bars, events }: MapViewProps) {
             bottom: ${isMobileFilterExpanded ? '310px' : '90px'} !important;
             transition: bottom 0.2s ease-in-out;
           }
+        }
+        
+        /* Premium Dark Glassmorphism for Map Controls */
+        .maplibregl-ctrl-group {
+          background: rgba(9, 9, 11, 0.85) !important;
+          backdrop-filter: blur(20px) !important;
+          -webkit-backdrop-filter: blur(20px) !important;
+          border: 1px solid rgba(255, 255, 255, 0.08) !important;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+          border-radius: 16px !important;
+          overflow: hidden !important;
+          display: flex !important;
+          flex-direction: column !important;
+          gap: 0 !important;
+        }
+        
+        .maplibregl-ctrl-group button {
+          width: 40px !important;
+          height: 40px !important;
+          background: transparent !important;
+          border: none !important;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+          outline: none !important;
+          transition: all 0.2s ease !important;
+          cursor: pointer !important;
+        }
+        
+        .maplibregl-ctrl-group button:last-child {
+          border-bottom: none !important;
+        }
+        
+        .maplibregl-ctrl-group button:hover {
+          background: rgba(255, 255, 255, 0.08) !important;
+        }
+        
+        /* Make dark icons white */
+        .maplibregl-ctrl-icon {
+          filter: invert(1) !important;
+          opacity: 0.75 !important;
+          transition: opacity 0.2s ease !important;
+        }
+        
+        .maplibregl-ctrl-group button:hover .maplibregl-ctrl-icon {
+          opacity: 1 !important;
         }
       `}</style>
     </div>
