@@ -58,14 +58,14 @@ export default function ReportModal({ targetId, targetType, trigger }: ReportMod
         <Dialog.Overlay 
           style={{ 
             position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', 
-            backdropFilter: 'blur(4px)', zIndex: 1000 
+            backdropFilter: 'blur(4px)', zIndex: 9999
           }} 
         />
         <Dialog.Content 
           style={{ 
             position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
             width: '90%', maxWidth: 450, background: '#18181b', border: '1px solid #27272a',
-            borderRadius: 24, padding: 32, zIndex: 1001, boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
+            borderRadius: 24, padding: 32, zIndex: 10000, boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
           }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>

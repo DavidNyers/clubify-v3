@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { X, Armchair } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import VenueReservationForm from './VenueReservationForm'
@@ -14,6 +15,10 @@ interface VenueReservationModalProps {
 
 export default function VenueReservationModal({ venueId, venueType, venueName, trigger }: VenueReservationModalProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   return (
     <>
@@ -21,53 +26,57 @@ export default function VenueReservationModal({ venueId, venueType, venueName, t
         {trigger}
       </div>
 
-      <AnimatePresence>
-        {isOpen && (
-          <div style={{ position: 'fixed', inset: 0, zIndex: 1000, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', padding: '40px 20px', overflowY: 'auto' }}>
-            {/* Overlay */}
-            <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
-              exit={{ opacity: 0 }}
-              onClick={() => setIsOpen(false)}
-              style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)' }} 
-            />
-
-            {/* Modal Content */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              style={{ 
-                position: 'relative', width: '100%', maxWidth: 650,
-                background: '#18181b', border: '1px solid #27272a', borderRadius: 32, padding: 32,
-                boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)', zIndex: 10
-              }}
-            >
-              <button 
+      {mounted && typeof document !== 'undefined' && createPortal(
+        <AnimatePresence>
+          {isOpen && (
+            <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+              {/* Overlay */}
+              <motion.div 
+                initial={{ opacity: 0 }} 
+                animate={{ opacity: 1 }} 
+                exit={{ opacity: 0 }}
                 onClick={() => setIsOpen(false)}
-                style={{ position: 'absolute', top: 24, right: 24, background: 'rgba(255,255,255,0.05)', border: 'none', color: '#a1a1aa', width: 32, height: 32, borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-              >
-                <X size={18} />
-              </button>
-
-              <header style={{ marginBottom: 24, textAlign: 'center' }}>
-                <h2 style={{ fontSize: '1.5rem', fontWeight: 900, color: 'white', marginBottom: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
-                  <Armchair style={{ color: '#3b82f6' }} size={28} /> Tisch bei {venueName} reservieren
-                </h2>
-                <p style={{ color: '#71717a', fontSize: '0.9rem' }}>Fülle das Formular aus, um deine Anfrage zu senden.</p>
-              </header>
-
-              <VenueReservationForm 
-                venueId={venueId}
-                venueType={venueType}
-                venueName={venueName}
-                source="app"
+                style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)' }} 
               />
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+
+              {/* Modal Content */}
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                style={{ 
+                  position: 'relative', width: '100%', maxWidth: 650, maxHeight: '90vh', overflowY: 'auto',
+                  background: '#18181b', border: '1px solid #27272a', borderRadius: 32, padding: 32,
+                  boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)', zIndex: 10
+                }}
+              >
+                <button 
+                  onClick={() => setIsOpen(false)}
+                  style={{ position: 'absolute', top: 24, right: 24, background: 'rgba(255,255,255,0.05)', border: 'none', color: '#a1a1aa', width: 32, height: 32, borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                >
+                  <X size={18} />
+                </button>
+
+                <header style={{ marginBottom: 24, textAlign: 'center' }}>
+                  <h2 style={{ fontSize: '1.5rem', fontWeight: 900, color: 'white', marginBottom: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
+                    <Armchair style={{ color: '#3b82f6' }} size={28} /> Tisch bei {venueName} reservieren
+                  </h2>
+                  <p style={{ color: '#71717a', fontSize: '0.9rem' }}>Fülle das Formular aus, um deine Anfrage zu senden.</p>
+                </header>
+
+                <VenueReservationForm 
+                  venueId={venueId}
+                  venueType={venueType}
+                  venueName={venueName}
+                  source="app"
+                  onClose={() => setIsOpen(false)}
+                />
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </>
   )
 }

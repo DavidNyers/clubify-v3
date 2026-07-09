@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import Navbar from '@/components/public/Navbar'
 import Footer from '@/components/public/Footer'
 import type { Metadata } from 'next'
+import { Search, Ticket, Smartphone, MapPin, Star } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Clubify — Discover Nightlife',
@@ -135,7 +136,7 @@ function HeroSection() {
       {/* Content */}
       <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '0 20px', maxWidth: 800 }}>
         <div className="badge badge-violet animate-fade-in-up" style={{ marginBottom: 24, fontSize: '0.8rem' }}>
-          🎵 Die Nightlife-Plattform für Österreich & Deutschland
+          Die Nightlife-Plattform für Österreich & Deutschland
         </div>
 
         <h1
@@ -260,7 +261,7 @@ function FeaturedClubsSection({ clubs }: { clubs: any[] }) {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 40 }}>
           <div>
             <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', marginBottom: 8 }}>
-              🔥 Featured Clubs
+              Featured Clubs
             </h2>
             <p style={{ color: 'rgb(var(--text-secondary))' }}>Die angesagtesten Locations in deiner Stadt</p>
           </div>
@@ -298,7 +299,7 @@ function FeaturedBarsSection({ bars }: { bars: any[] }) {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 40 }}>
           <div>
             <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', marginBottom: 8, background: 'linear-gradient(135deg, #10b981, #3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              🍸 Featured Bars
+              Featured Bars
             </h2>
             <p style={{ color: 'rgb(var(--text-secondary))' }}>Exklusive Drinks und unvergessliche Vibes</p>
           </div>
@@ -357,12 +358,12 @@ function ClubCard({ club, delay = 0 }: { club: any; delay?: number }) {
       <div style={{ padding: '20px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
           <h3 style={{ fontSize: '1.2rem', fontWeight: 800 }}>{club.name}</h3>
-          <span style={{ color: '#eab308', fontSize: '0.85rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 2 }}>
-            ★ {club.avg_rating?.toFixed(1) ?? '—'}
+          <span style={{ color: '#eab308', fontSize: '0.85rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
+            <Star size={14} fill="#eab308" stroke="#eab308" /> {club.avg_rating?.toFixed(1) ?? '—'}
           </span>
         </div>
-        <div style={{ display: 'flex', gap: 12, color: 'rgb(var(--text-muted))', fontSize: '0.85rem' }}>
-          <span>📍 {club.city}</span>
+        <div style={{ display: 'flex', gap: 12, color: 'rgb(var(--text-muted))', fontSize: '0.85rem', alignItems: 'center' }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><MapPin size={14} /> {club.city}</span>
           <span className="price-range">
             {[...Array(4)].map((_, j) => (
               <span key={j} style={{ color: j < (club.price_range ?? 2) ? '#8b5cf6' : 'rgba(255,255,255,0.1)' }}>€</span>
@@ -400,12 +401,12 @@ function BarCard({ bar, delay = 0 }: { bar: any; delay?: number }) {
       <div style={{ padding: '20px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
           <h3 style={{ fontSize: '1.2rem', fontWeight: 800 }}>{bar.name}</h3>
-          <span style={{ color: '#eab308', fontSize: '0.85rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 2 }}>
-            ★ {bar.avg_rating?.toFixed(1) ?? '—'}
+          <span style={{ color: '#eab308', fontSize: '0.85rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
+            <Star size={14} fill="#eab308" stroke="#eab308" /> {bar.avg_rating?.toFixed(1) ?? '—'}
           </span>
         </div>
-        <div style={{ display: 'flex', gap: 12, color: 'rgb(var(--text-muted))', fontSize: '0.85rem' }}>
-          <span>📍 {bar.city}</span>
+        <div style={{ display: 'flex', gap: 12, color: 'rgb(var(--text-muted))', fontSize: '0.85rem', alignItems: 'center' }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><MapPin size={14} /> {bar.city}</span>
           <span className="price-range">
             {[...Array(4)].map((_, j) => (
               <span key={j} style={{ color: j < (bar.price_range ?? 2) ? '#10b981' : 'rgba(255,255,255,0.1)' }}>€</span>
@@ -428,7 +429,7 @@ function UpcomingEventsSection({ events }: { events: any[] }) {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 40 }}>
           <div>
             <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', marginBottom: 8, background: 'linear-gradient(135deg, #f59e0b, #fbbf24)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              🎟 Kommende Events
+              Kommende Events
             </h2>
             <p style={{ color: 'rgb(var(--text-secondary))' }}>Sichere dir jetzt dein Ticket</p>
           </div>
@@ -476,9 +477,9 @@ function UpcomingEventsSection({ events }: { events: any[] }) {
 
 function HowItWorksSection() {
   const steps = [
-    { icon: '🔍', title: 'Entdecken', desc: 'Finde Clubs, Bars und Events auf der interaktiven Karte oder per Suche.' },
-    { icon: '🎟', title: 'Buchen', desc: 'Kaufe Tickets oder reserviere einen Tisch — sicher per Stripe bezahlen.' },
-    { icon: '📱', title: 'Genießen', desc: 'Zeige deinen QR-Code am Eingang und genieße die Nacht.' },
+    { icon: <Search size={28} style={{ color: '#a78bfa' }} />, title: 'Entdecken', desc: 'Finde Clubs, Bars und Events auf der interaktiven Karte oder per Suche.' },
+    { icon: <Ticket size={28} style={{ color: '#f472b6' }} />, title: 'Buchen', desc: 'Kaufe Tickets oder reserviere einen Tisch — sicher per Stripe bezahlen.' },
+    { icon: <Smartphone size={28} style={{ color: '#22d3ee' }} />, title: 'Genießen', desc: 'Zeige deinen QR-Code am Eingang und genieße die Nacht.' },
   ]
   return (
     <section className="section">
@@ -526,10 +527,10 @@ function CTASection() {
             </p>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <Link href="/auth/register" className="btn btn-primary btn-lg">
-                🚀 Jetzt kostenlos starten
+                Jetzt kostenlos starten
               </Link>
               <Link href="/map" className="btn btn-secondary btn-lg">
-                🗺 Karte öffnen
+                Karte öffnen
               </Link>
             </div>
           </div>
