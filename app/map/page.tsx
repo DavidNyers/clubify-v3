@@ -23,7 +23,7 @@ export default async function MapPage() {
   return (
     <>
       <Navbar user={user} />
-      <main style={{ paddingTop: 64, height: '100vh', width: '100vw', overflow: 'hidden', position: 'relative' }}>
+      <main style={{ paddingTop: 64, height: '100dvh', boxSizing: 'border-box', width: '100vw', overflow: 'hidden', position: 'relative' }}>
         <MapLoader 
           clubs={clubs ?? []} 
           bars={bars ?? []} 

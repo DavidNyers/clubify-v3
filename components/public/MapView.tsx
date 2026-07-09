@@ -33,6 +33,7 @@ export default function MapView({ clubs, bars, events }: MapViewProps) {
   const [mapLoaded, setMapLoaded] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false)
+  const [isMobileFilterExpanded, setIsMobileFilterExpanded] = useState(false)
 
   // Robust responsive check
   useEffect(() => {
@@ -520,93 +521,211 @@ export default function MapView({ clubs, bars, events }: MapViewProps) {
         </div>
       )}
 
-      {/* Floating Menu Button (Mobile ONLY) */}
+      {/* Mobile Floating Search & Filters */}
       {isMobile && (
-        <div style={{ position: 'absolute', top: 20, left: 20, zIndex: 10 }}>
-          <button 
-            onClick={() => setIsDrawerOpen(true)}
-            style={{
-              width: 48, height: 48, borderRadius: 14, background: 'rgba(24, 24, 27, 0.8)',
-              backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.1)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
-              color: 'white', boxShadow: '0 4px 20px rgba(0,0,0,0.3)'
-            }}
-          >
-            <Menu size={24} />
-          </button>
+        <div 
+          onTouchStart={(e) => e.stopPropagation()}
+          onTouchMove={(e) => e.stopPropagation()}
+          onTouchEnd={(e) => e.stopPropagation()}
+          onMouseDown={(e) => e.stopPropagation()}
+          style={{ 
+            position: 'absolute', bottom: 24, left: 16, right: 16, zIndex: 100,
+            display: 'flex', flexDirection: 'column', gap: 10
+          }}
+        >
+          {/* Expanded Filter Panel */}
+          <AnimatePresence>
+            {isMobileFilterExpanded && (
+              <motion.div
+                initial={{ opacity: 0, y: 10, height: 0 }}
+                animate={{ opacity: 1, y: 0, height: 'auto' }}
+                exit={{ opacity: 0, y: 10, height: 0 }}
+                transition={{ duration: 0.2 }}
+                style={{
+                  background: 'rgba(9, 9, 11, 0.9)',
+                  backdropFilter: 'blur(20px)',
+                  borderRadius: 20,
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  padding: 16,
+                  boxShadow: '0 -10px 30px rgba(0,0,0,0.5)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 14,
+                  overflow: 'hidden'
+                }}
+              >
+                {/* Categories */}
+                <div>
+                  <span style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#71717a', textTransform: 'uppercase', marginBottom: 8 }}>
+                    Kategorie
+                  </span>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+                    {[
+                      { id: 'all', label: 'Alle', icon: Filter },
+                      { id: 'clubs', label: 'Clubs', icon: Music2, color: '#8b5cf6' },
+                      { id: 'bars', label: 'Bars', icon: Beer, color: '#ec4899' },
+                      { id: 'events', label: 'Events', icon: Calendar, color: '#f59e0b' }
+                    ].map(f => {
+                      const isSelected = filter === f.id
+                      const btnColor = f.color || '#8b5cf6'
+                      return (
+                        <button
+                          key={f.id}
+                          type="button"
+                          onClick={() => setFilter(f.id as any)}
+                          style={{
+                            padding: '10px 12px',
+                            borderRadius: 12,
+                            border: isSelected ? `1px solid ${btnColor}` : '1px solid rgba(255,255,255,0.08)',
+                            background: isSelected ? `${btnColor}15` : 'rgba(255,255,255,0.02)',
+                            color: isSelected ? btnColor : '#a1a1aa',
+                            fontWeight: 700,
+                            fontSize: '0.8rem',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 8,
+                            transition: 'all 0.2s'
+                          }}
+                        >
+                          <f.icon size={14} />
+                          {f.label}
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                {/* Status Toggles */}
+                <div>
+                  <span style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#71717a', textTransform: 'uppercase', marginBottom: 8 }}>
+                    Filter
+                  </span>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <button
+                      type="button"
+                      onClick={() => setShowOpenNow(!showOpenNow)}
+                      style={{
+                        flex: 1,
+                        padding: '10px 12px',
+                        borderRadius: 12,
+                        border: showOpenNow ? '1px solid #22c55e' : '1px solid rgba(255,255,255,0.08)',
+                        background: showOpenNow ? 'rgba(34, 197, 94, 0.15)' : 'rgba(255,255,255,0.02)',
+                        color: showOpenNow ? '#22c55e' : '#a1a1aa',
+                        fontWeight: 700,
+                        fontSize: '0.8rem',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 8,
+                        transition: 'all 0.2s'
+                      }}
+                    >
+                      <div style={{ 
+                        width: 6, height: 6, borderRadius: '50%', 
+                        background: showOpenNow ? '#22c55e' : '#3f3f46'
+                      }} />
+                      Geöffnet
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setShowHappyHour(!showHappyHour)}
+                      style={{
+                        flex: 1,
+                        padding: '10px 12px',
+                        borderRadius: 12,
+                        border: showHappyHour ? '1px solid #eab308' : '1px solid rgba(255,255,255,0.08)',
+                        background: showHappyHour ? 'rgba(234, 179, 8, 0.15)' : 'rgba(255,255,255,0.02)',
+                        color: showHappyHour ? '#eab308' : '#a1a1aa',
+                        fontWeight: 700,
+                        fontSize: '0.8rem',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 8,
+                        transition: 'all 0.2s'
+                      }}
+                    >
+                      <Beer size={14} />
+                      Happy Hour
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Search Row */}
+          <div style={{ 
+            display: 'flex', alignItems: 'center', 
+            background: 'rgba(9, 9, 11, 0.85)', backdropFilter: 'blur(20px)', 
+            borderRadius: 20, border: '1px solid rgba(255,255,255,0.08)', height: 52, padding: '0 8px',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
+          }}>
+            <Search style={{ color: '#71717a', marginLeft: 12, flexShrink: 0 }} size={18} />
+            <input 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Venues suchen..."
+              style={{
+                background: 'transparent', border: 'none', padding: '0 12px',
+                color: 'white', outline: 'none', fontSize: '0.9rem', width: '100%', fontWeight: 600,
+                height: '100%'
+              }}
+            />
+            {searchQuery && (
+              <button 
+                type="button"
+                onClick={() => setSearchQuery('')}
+                style={{ background: 'none', border: 'none', color: '#a1a1aa', cursor: 'pointer', padding: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              >
+                <X size={18} />
+              </button>
+            )}
+            
+            <div style={{ width: 1, height: 24, background: 'rgba(255,255,255,0.1)', margin: '0 8px' }} />
+
+            <button 
+              type="button"
+              onClick={() => setIsMobileFilterExpanded(!isMobileFilterExpanded)}
+              style={{ 
+                background: isMobileFilterExpanded || filter !== 'all' || showOpenNow || showHappyHour ? 'rgba(139, 92, 246, 0.15)' : 'none', 
+                border: 'none', 
+                color: isMobileFilterExpanded || filter !== 'all' || showOpenNow || showHappyHour ? '#8b5cf6' : '#a1a1aa', 
+                cursor: 'pointer', 
+                width: 36, height: 36, 
+                borderRadius: 12, 
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                transition: 'all 0.2s',
+                position: 'relative'
+              }}
+            >
+              <Filter size={18} />
+              {(filter !== 'all' || showOpenNow || showHappyHour) && (
+                <div style={{
+                  position: 'absolute', top: 6, right: 6, width: 6, height: 6, borderRadius: '50%',
+                  background: '#8b5cf6', boxShadow: '0 0 8px #8b5cf6'
+                }} />
+              )}
+            </button>
+          </div>
         </div>
       )}
 
-      {/* Mobile Drawer (Existing) */}
-      <AnimatePresence>
-        {isDrawerOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              onClick={() => setIsDrawerOpen(false)}
-              style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 1000, backdropFilter: 'blur(4px)' }}
-            />
-            <motion.div
-              initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }}
-              style={{
-                position: 'absolute', top: 0, left: 0, bottom: 0, width: '85%', maxWidth: 320,
-                background: '#09090b', zIndex: 1001, padding: 24, borderRight: '1px solid #18181b',
-                boxShadow: '20px 0 50px rgba(0,0,0,0.5)', display: 'flex', flexDirection: 'column'
-              }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
-                <h2 style={{ fontSize: '1.5rem', fontWeight: 900, color: 'white' }}>Filter</h2>
-                <button onClick={() => setIsDrawerOpen(false)} style={{ background: 'none', border: 'none', color: '#a1a1aa', cursor: 'pointer' }}><X size={24} /></button>
-              </div>
-
-               <div style={{ marginBottom: 32 }}>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#71717a', textTransform: 'uppercase', marginBottom: 12 }}>Suche</label>
-                <div style={{ position: 'relative' }}>
-                  <Search style={{ position: 'absolute', left: 14, top: 14, color: '#71717a' }} size={18} />
-                  <input 
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Suchen..."
-                    style={{
-                      width: '100%', background: '#18181b', border: '1px solid #27272a', borderRadius: 16,
-                      padding: '14px 14px 14px 44px', color: 'white', outline: 'none'
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                  {[
-                    { id: 'all', label: 'Alle' },
-                    { id: 'clubs', label: 'Clubs' },
-                    { id: 'bars', label: 'Bars' },
-                    { id: 'events', label: 'Events' }
-                  ].map(f => (
-                    <button
-                      key={f.id}
-                      onClick={() => setFilter(f.id as any)}
-                      style={{
-                        padding: '12px', borderRadius: 12, border: '1px solid',
-                        borderColor: filter === f.id ? '#8b5cf6' : '#27272a',
-                        background: filter === f.id ? 'rgba(139, 92, 246, 0.1)' : 'transparent',
-                        color: filter === f.id ? 'white' : '#71717a',
-                        fontWeight: 700, cursor: 'pointer'
-                      }}
-                    >
-                      {f.label}
-                    </button>
-                  ))}
-              </div>
-
-              <div style={{ marginTop: 'auto' }}>
-                 <button onClick={() => setIsDrawerOpen(false)} style={{ width: '100%', padding: '16px', borderRadius: 16, background: 'linear-gradient(135deg, #8b5cf6, #ec4899)', color: 'white', border: 'none', fontWeight: 800 }}>
-                   Ergebnisse anzeigen
-                 </button>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+      <style>{`
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        @media (max-width: 1023px) {
+          .maplibregl-ctrl-bottom-right {
+            bottom: ${isMobileFilterExpanded ? '310px' : '90px'} !important;
+            transition: bottom 0.2s ease-in-out;
+          }
+        }
+      `}</style>
     </div>
   )
 }
