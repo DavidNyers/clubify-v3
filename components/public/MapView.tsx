@@ -339,13 +339,13 @@ export default function MapView({ clubs, bars, events }: MapViewProps) {
         {selectedVenue && (
           <div style={{ 
             position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-            zIndex: 100, background: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(20px)',
-            borderRadius: 24, padding: 0, width: 320, overflow: 'hidden',
-            boxShadow: '0 20px 60px rgba(0,0,0,0.4)', color: '#09090b',
-            border: '1px solid rgba(255,255,255,0.2)'
+            zIndex: 1000, background: 'rgba(18, 18, 22, 0.85)', backdropFilter: 'blur(20px)',
+            borderRadius: 28, padding: 0, width: 330, overflow: 'hidden',
+            boxShadow: '0 25px 60px -15px rgba(0,0,0,0.7)', color: 'white',
+            border: '1px solid rgba(255,255,255,0.08)'
           }}>
             {/* Header Image */}
-            <div style={{ position: 'relative', width: '100%', height: 160 }}>
+            <div style={{ position: 'relative', width: '100%', height: 170 }}>
               <img 
                 src={selectedVenue.image} 
                 alt={selectedVenue.name} 
@@ -353,46 +353,90 @@ export default function MapView({ clubs, bars, events }: MapViewProps) {
               />
               <div style={{ 
                 position: 'absolute', inset: 0, 
-                background: 'linear-gradient(to top, rgba(255,255,255,0.95) 0%, transparent 40%)' 
+                background: 'linear-gradient(to top, rgba(18, 18, 22, 0.95) 0%, rgba(18, 18, 22, 0.4) 50%, transparent 100%)' 
               }} />
               <button 
                 onClick={() => setSelectedVenue(null)} 
                 style={{ 
-                  position: 'absolute', top: 12, right: 12, background: 'rgba(0,0,0,0.5)', 
-                  border: 'none', color: 'white', cursor: 'pointer',
-                  width: 32, height: 32, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  backdropFilter: 'blur(10px)'
+                  position: 'absolute', top: 16, right: 16, background: 'rgba(9, 9, 11, 0.6)', 
+                  color: 'white', cursor: 'pointer',
+                  width: 34, height: 34, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.1)',
+                  transition: 'all 0.2s'
                 }}
               >
                 <X size={18} />
               </button>
             </div>
 
-            <div style={{ padding: 20 }}>
-              <div style={{ marginBottom: 10 }}>
-                 <span style={{ 
+            <div style={{ padding: '20px 24px 24px 24px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                <span style={{ 
                   background: `${selectedVenue.color}20`, color: selectedVenue.color,
                   padding: '4px 10px', borderRadius: 8, fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em'
                 }}>
                   {selectedVenue.type}
                 </span>
+
+                {/* Rating */}
+                {selectedVenue.avg_rating > 0 && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: '0.85rem', fontWeight: 700, color: '#f59e0b' }}>
+                    <Star size={14} style={{ fill: '#f59e0b' }} />
+                    {selectedVenue.avg_rating.toFixed(1)}
+                  </div>
+                )}
+              </div>
+
+              <h3 style={{ fontSize: '1.45rem', fontWeight: 900, marginBottom: 8, letterSpacing: '-0.02em', color: 'white' }}>
+                {selectedVenue.name}
+              </h3>
+
+              <p style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#a1a1aa', fontSize: '0.85rem', marginBottom: 14 }}>
+                <MapPin size={16} style={{ color: '#71717a' }} /> 
+                {selectedVenue.address || selectedVenue.city}
+              </p>
+
+              {/* Stats & Genres */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
+                {/* Price & Capacity */}
+                {(selectedVenue.price_range > 0 || selectedVenue.capacity > 0) && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: '0.8rem', color: '#71717a' }}>
+                    {selectedVenue.price_range > 0 && (
+                      <span style={{ display: 'flex', gap: 2 }}>
+                        {Array.from({ length: 4 }).map((_, i) => (
+                          <span key={i} style={{ color: i < selectedVenue.price_range ? '#e4e4e7' : '#3f3f46', fontWeight: 900 }}>€</span>
+                        ))}
+                      </span>
+                    )}
+                    {selectedVenue.price_range > 0 && selectedVenue.capacity > 0 && <span style={{ color: '#27272a' }}>|</span>}
+                    {selectedVenue.capacity > 0 && (
+                      <span>👥 Max. {selectedVenue.capacity} Personen</span>
+                    )}
+                  </div>
+                )}
+
+                {/* Music Genres */}
+                {selectedVenue.music_genres && selectedVenue.music_genres.length > 0 && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.8rem', color: '#71717a' }}>
+                    <Music2 size={14} style={{ color: '#8b5cf6' }} />
+                    <span>{selectedVenue.music_genres.slice(0, 3).join(', ')}</span>
+                  </div>
+                )}
+              </div>
+
+              <Link 
+                href={`/${selectedVenue.type}s/${selectedVenue.slug}`}
+                style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '14px',
+                  background: 'linear-gradient(135deg, #8b5cf6, #ec4899)', color: 'white',
+                  borderRadius: 14, textDecoration: 'none', fontWeight: 800, fontSize: '0.95rem',
+                  boxShadow: `0 8px 20px -6px ${selectedVenue.color}60`,
+                  transition: 'all 0.2s'
+                }}
+              >
+                Details ansehen
+              </Link>
             </div>
-            <h3 style={{ fontSize: '1.4rem', fontWeight: 900, marginBottom: 6, letterSpacing: '-0.02em' }}>{selectedVenue.name}</h3>
-            <p style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#52525b', fontSize: '0.9rem', marginBottom: 20 }}>
-              <MapPin size={16} /> {selectedVenue.address || selectedVenue.city}
-            </p>
-            <Link 
-              href={`/${selectedVenue.type}s/${selectedVenue.slug}`}
-              style={{
-                display: 'block', textAlign: 'center', padding: '14px',
-                background: 'linear-gradient(135deg, #8b5cf6, #ec4899)', color: 'white',
-                borderRadius: 12, textDecoration: 'none', fontWeight: 800, fontSize: '0.95rem',
-                boxShadow: `0 4px 15px ${selectedVenue.color}40`
-              }}
-            >
-              Details ansehen
-            </Link>
-          </div>
         </div>
       )}
       </AnimatePresence>
