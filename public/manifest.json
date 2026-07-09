@@ -1,0 +1,43 @@
+{
+  "name": "Clubify",
+  "short_name": "Clubify",
+  "description": "Nightlife Discovery, Reservierungen und Event-Ticketing",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#09090b",
+  "theme_color": "#8b5cf6",
+  "start_url": "/",
+  "scope": "/",
+  "lang": "de",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "QR Scanner",
+      "short_name": "Scanner",
+      "description": "Tickets scannen",
+      "url": "/dashboard/bouncer/scan",
+      "icons": [{ "src": "/icons/scan-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Meine Tickets",
+      "short_name": "Tickets",
+      "description": "Meine Tickets ansehen",
+      "url": "/dashboard/user/tickets",
+      "icons": [{ "src": "/icons/ticket-96.png", "sizes": "96x96" }]
+    }
+  ]
+}

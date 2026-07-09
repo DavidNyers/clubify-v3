@@ -39,3 +39,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# debug and local scripts
+debug.js
+debug_final.ts
+debug_final_js.js
+debug_page.txt
+check_db.ts
+find_venue.ts
+push_schema.js
+schema_dump.sql
+/scratch
+
