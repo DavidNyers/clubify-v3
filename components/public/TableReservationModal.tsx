@@ -68,7 +68,7 @@ export default function TableReservationModal({ clubId, clubName, packages, user
 
       <AnimatePresence>
         {isOpen && (
-          <div style={{ position: 'fixed', inset: 0, zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+          <div style={{ position: 'fixed', inset: 0, zIndex: 1000, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', padding: '40px 20px', overflowY: 'auto' }}>
             {/* Overlay */}
             <motion.div 
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -82,7 +82,7 @@ export default function TableReservationModal({ clubId, clubName, packages, user
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               style={{ 
-                position: 'relative', width: '100%', maxWidth: 700, maxHeight: '90vh', overflowY: 'auto',
+                position: 'relative', width: '100%', maxWidth: 700,
                 background: '#18181b', border: '1px solid #27272a', borderRadius: 32, padding: 32,
                 boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)'
               }}

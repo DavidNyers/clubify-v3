@@ -6,8 +6,8 @@ import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { getDashboardRoute, type UserRole } from '@/lib/auth/rbac'
 import {
-  Menu, X, Moon, Sun, Globe, Map, Calendar, Music2, Beer,
-  User, Users, LogOut, LayoutDashboard, ChevronDown, Search, Bell
+  Menu, X, Map, Calendar, Music2, Beer,
+  User, Users, LogOut, LayoutDashboard, ChevronDown, Bell
 } from 'lucide-react'
 
 interface NavbarProps {
@@ -159,87 +159,6 @@ export default function Navbar({ user }: NavbarProps) {
 
         {/* Right Actions */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginLeft: 'auto' }}>
-          {/* Search */}
-          <div ref={searchRef} style={{ position: 'relative' }}>
-            <button
-              id="navbar-search-btn"
-              onClick={() => setSearchOpen(!searchOpen)}
-              className="btn btn-ghost btn-icon"
-              title="Suche"
-            >
-              <Search size={18} />
-            </button>
-            {searchOpen && (
-              <div style={{
-                position: 'absolute', top: '100%', right: 0, marginTop: 8,
-                width: 340, background: 'rgb(var(--bg-surface))',
-                border: '1px solid rgb(var(--border))', borderRadius: 12,
-                boxShadow: '0 8px 32px rgba(0,0,0,0.4)', overflow: 'hidden',
-              }}>
-                <div style={{ padding: 12, borderBottom: '1px solid rgb(var(--border))' }}>
-                  <input
-                    autoFocus
-                    value={searchQuery}
-                    onChange={e => setSearchQuery(e.target.value)}
-                    placeholder={locale === 'de' ? 'Clubs, Bars, Events suchen...' : 'Search clubs, bars, events...'}
-                    className="input"
-                    style={{ marginBottom: 0 }}
-                  />
-                </div>
-                {searchResults.length > 0 && (
-                  <div style={{ maxHeight: 320, overflowY: 'auto' }}>
-                    {searchResults.map(result => (
-                      <Link
-                        key={`${result.type}-${result.id}`}
-                        href={`/${result.type}s/${result.slug}`}
-                        onClick={() => { setSearchOpen(false); setSearchQuery('') }}
-                        style={{
-                          display: 'flex', alignItems: 'center', gap: 12,
-                          padding: '10px 16px', textDecoration: 'none',
-                          color: 'rgb(var(--text-primary))', transition: 'background 0.15s',
-                        }}
-                        onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = 'rgb(var(--bg-elevated))'}
-                        onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = 'transparent'}
-                      >
-                        <span className={`badge badge-${result.type === 'club' ? 'violet' : result.type === 'bar' ? 'pink' : 'yellow'}`} style={{ fontSize: '0.7rem', minWidth: 40, justifyContent: 'center' }}>
-                          {result.type === 'club' ? 'Club' : result.type === 'bar' ? 'Bar' : 'Event'}
-                        </span>
-                        <span style={{ fontSize: '0.875rem' }}>{result.name}</span>
-                        {result.city && <span style={{ color: 'rgb(var(--text-muted))', fontSize: '0.75rem', marginLeft: 'auto' }}>{result.city}</span>}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-                {searchQuery.length >= 2 && searchResults.length === 0 && (
-                  <div style={{ padding: 16, textAlign: 'center', color: 'rgb(var(--text-muted))', fontSize: '0.875rem' }}>
-                    {locale === 'de' ? 'Keine Ergebnisse' : 'No results'}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* Theme Toggle */}
-          <button
-            id="theme-toggle"
-            onClick={toggleTheme}
-            className="btn btn-ghost btn-icon"
-            title={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-          >
-            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
-
-          {/* Language Toggle */}
-          <button
-            id="locale-toggle"
-            onClick={toggleLocale}
-            className="btn btn-ghost btn-icon"
-            title={locale === 'de' ? 'English' : 'Deutsch'}
-            style={{ fontWeight: 700, fontSize: '0.75rem', letterSpacing: 0.5 }}
-          >
-            {locale === 'de' ? 'EN' : 'DE'}
-          </button>
-
           {/* User Menu or Auth Buttons */}
           {user ? (
             <div ref={userMenuRef} className="hide-mobile" style={{ position: 'relative' }}>

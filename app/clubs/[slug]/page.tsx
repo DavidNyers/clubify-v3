@@ -84,7 +84,7 @@ export default async function ClubDetailPage({ params }: { params: Promise<{ slu
 
             {/* Title & Stats */}
             <div style={{ position: 'absolute', bottom: 40, left: '5%', right: '5%' }}>
-              <h1 style={{ fontSize: '3rem', fontWeight: 900, letterSpacing: '-0.03em', marginBottom: 16, textShadow: '0 4px 20px rgba(0,0,0,0.5)' }}>
+              <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 900, letterSpacing: '-0.03em', marginBottom: 16, textShadow: '0 4px 20px rgba(0,0,0,0.5)', lineHeight: 1.1 }}>
                 {club.name}
               </h1>
               
@@ -115,7 +115,7 @@ export default async function ClubDetailPage({ params }: { params: Promise<{ slu
       </div>
 
         {/* CONTENT GRID */}
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 5%', display: 'grid', gridTemplateColumns: 'minmax(0, 2fr) minmax(0, 1fr)', gap: 40 }}>
+        <div className="details-grid" style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 5%' }}>
           
           {/* Main Info */}
           <div>
@@ -179,8 +179,6 @@ export default async function ClubDetailPage({ params }: { params: Promise<{ slu
               </div>
             </div>
 
-            {/* COMMUNITY & REVIEWS */}
-            <ReviewSection targetId={club.id} targetType="club" user={user} />
           </div>
 
           {/* Sidebar */}
@@ -190,14 +188,29 @@ export default async function ClubDetailPage({ params }: { params: Promise<{ slu
               <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 24 }}>Club Infos</h3>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-                <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-                  <div style={{ background: '#27272a', padding: 10, borderRadius: 12 }}><MapPin size={18} style={{ color: '#a78bfa' }} /></div>
-                  <div>
-                    <div style={{ fontSize: '0.8rem', color: '#71717a', marginBottom: 2 }}>Adresse</div>
-                    <div style={{ fontSize: '0.9rem', color: 'white', fontWeight: 600 }}>{club.address || 'Keine Adresse hinterlegt'}</div>
-                    <div style={{ fontSize: '0.85rem', color: '#71717a', marginTop: 2 }}>{club.city}, {club.country}</div>
+                {club.address ? (
+                  <a 
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${club.address}, ${club.city}, ${club.country || ''}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ display: 'flex', gap: 14, alignItems: 'flex-start', textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
+                  >
+                    <div style={{ background: '#27272a', padding: 10, borderRadius: 12 }}><MapPin size={18} style={{ color: '#a78bfa' }} /></div>
+                    <div>
+                      <div style={{ fontSize: '0.8rem', color: '#71717a', marginBottom: 2 }}>Adresse</div>
+                      <div style={{ fontSize: '0.9rem', color: 'white', fontWeight: 600 }}>{club.address}</div>
+                      <div style={{ fontSize: '0.85rem', color: '#71717a', marginTop: 2 }}>{club.city}, {club.country}</div>
+                    </div>
+                  </a>
+                ) : (
+                  <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                    <div style={{ background: '#27272a', padding: 10, borderRadius: 12 }}><MapPin size={18} style={{ color: '#a78bfa' }} /></div>
+                    <div>
+                      <div style={{ fontSize: '0.8rem', color: '#71717a', marginBottom: 2 }}>Adresse</div>
+                      <div style={{ fontSize: '0.9rem', color: 'white', fontWeight: 600 }}>Keine Adresse hinterlegt</div>
+                    </div>
                   </div>
-                </div>
+                )}
 
                 <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
                   <div style={{ background: '#27272a', padding: 10, borderRadius: 12 }}><Clock size={18} style={{ color: '#fb923c' }} /></div>
@@ -249,6 +262,11 @@ export default async function ClubDetailPage({ params }: { params: Promise<{ slu
             </div>
           </div>
 
+        </div>
+
+        {/* COMMUNITY & REVIEWS */}
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 5% 40px 5%' }}>
+          <ReviewSection targetId={club.id} targetType="club" user={user} />
         </div>
       </main>
     </>

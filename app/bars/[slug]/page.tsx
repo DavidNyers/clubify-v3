@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Navbar from '@/components/public/Navbar'
 import { MapPin, Users, Star, Clock, Globe, Camera, Phone, ChevronLeft, ArrowRight, GlassWater, Armchair } from 'lucide-react'
-import VenueReservationForm from '@/components/public/VenueReservationForm'
+import VenueReservationModal from '@/components/public/VenueReservationModal'
 import FavoriteButton from '@/components/public/FavoriteButton'
 import ReviewSection from '@/components/public/ReviewSection'
 import { isFavorited } from '@/lib/actions/user/FavoriteActions'
@@ -79,7 +79,7 @@ export default async function BarDetailPage({ params }: { params: Promise<{ slug
 
             {/* Title & Stats */}
             <div style={{ position: 'absolute', bottom: 40, left: '5%', right: '5%' }}>
-              <h1 style={{ fontSize: '3rem', fontWeight: 900, letterSpacing: '-0.03em', marginBottom: 12, textShadow: '0 4px 20px rgba(0,0,0,0.5)' }}>
+              <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 900, letterSpacing: '-0.03em', marginBottom: 12, textShadow: '0 4px 20px rgba(0,0,0,0.5)', lineHeight: 1.1 }}>
                 {bar.name}
               </h1>
               
@@ -110,7 +110,7 @@ export default async function BarDetailPage({ params }: { params: Promise<{ slug
         </div>
 
         {/* CONTENT GRID */}
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 5%', display: 'grid', gridTemplateColumns: 'minmax(0, 2fr) minmax(0, 1fr)', gap: 40 }}>
+        <div className="details-grid" style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 5%' }}>
           
           {/* Main Info */}
           <div>
@@ -170,22 +170,8 @@ export default async function BarDetailPage({ params }: { params: Promise<{ slug
               </div>
             </div>
 
-            {/* RESERVATION SECTION */}
-            <div id="reserve" style={{ marginBottom: 60 }}>
-               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
-                  <Armchair size={24} style={{ color: '#8b5cf6' }} />
-                  <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'white', margin: 0 }}>Tisch reservieren</h2>
-               </div>
-               <VenueReservationForm 
-                venueId={bar.id} 
-                venueType="bar" 
-                venueName={bar.name} 
-                source="app"
-               />
-            </div>
 
-            {/* COMMUNITY & REVIEWS */}
-            <ReviewSection targetId={bar.id} targetType="bar" user={user} />
+
           </div>
 
           {/* Sidebar */}
@@ -194,12 +180,25 @@ export default async function BarDetailPage({ params }: { params: Promise<{ slug
               <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 24 }}>Bar Details</h3>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-                {bar.address && (
-                  <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                {bar.address ? (
+                  <a 
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${bar.address}, ${bar.city}, ${bar.country || ''}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ display: 'flex', gap: 12, alignItems: 'flex-start', textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
+                  >
                     <div style={{ background: '#27272a', padding: 10, borderRadius: 10 }}><MapPin size={18} style={{ color: '#e2e8f0' }} /></div>
                     <div>
                       <div style={{ fontSize: '0.8rem', color: '#a1a1aa', marginBottom: 2 }}>Adresse</div>
                       <div style={{ fontSize: '0.95rem', color: 'white' }}>{bar.address}<br/>{bar.city}</div>
+                    </div>
+                  </a>
+                ) : (
+                  <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                    <div style={{ background: '#27272a', padding: 10, borderRadius: 10 }}><MapPin size={18} style={{ color: '#e2e8f0' }} /></div>
+                    <div>
+                      <div style={{ fontSize: '0.8rem', color: '#a1a1aa', marginBottom: 2 }}>Adresse</div>
+                      <div style={{ fontSize: '0.95rem', color: 'white' }}>Keine Adresse hinterlegt</div>
                     </div>
                   </div>
                 )}
@@ -217,15 +216,22 @@ export default async function BarDetailPage({ params }: { params: Promise<{ slug
                 <div style={{ height: 1, background: '#27272a', margin: '8px 0' }} />
 
                 <div style={{ padding: '8px 0' }}>
-                   <Link href="#reserve" style={{ 
-                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, 
-                     width: '100%', padding: '16px', borderRadius: 16, border: 'none', 
-                     background: 'linear-gradient(135deg, #8b5cf6, #ec4899)', color: 'white', 
-                     textDecoration: 'none', fontWeight: 900, cursor: 'pointer',
-                     boxShadow: '0 10px 20px -5px rgba(139, 92, 246, 0.3)'
-                   }}>
-                      <Armchair size={18} /> Tisch reservieren
-                   </Link>
+                   <VenueReservationModal 
+                     venueId={bar.id} 
+                     venueType="bar" 
+                     venueName={bar.name}
+                     trigger={
+                       <button style={{ 
+                         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, 
+                         width: '100%', padding: '16px', borderRadius: 16, border: 'none', 
+                         background: 'linear-gradient(135deg, #8b5cf6, #ec4899)', color: 'white', 
+                         fontWeight: 900, cursor: 'pointer',
+                         boxShadow: '0 10px 20px -5px rgba(139, 92, 246, 0.3)'
+                       }}>
+                          <Armchair size={18} /> Tisch reservieren
+                       </button>
+                     }
+                   />
                 </div>
 
                 <div style={{ height: 1, background: '#27272a', margin: '8px 0' }} />
@@ -254,6 +260,11 @@ export default async function BarDetailPage({ params }: { params: Promise<{ slug
             </div>
           </div>
 
+        </div>
+
+        {/* COMMUNITY & REVIEWS */}
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 5% 40px 5%' }}>
+          <ReviewSection targetId={bar.id} targetType="bar" user={user} />
         </div>
       </main>
     </>

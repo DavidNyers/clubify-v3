@@ -81,7 +81,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                   </div>
                 </div>
 
-                <h1 style={{ fontSize: '3.5rem', fontWeight: 900, letterSpacing: '-0.03em', marginBottom: 16, textShadow: '0 4px 20px rgba(0,0,0,0.5)', lineHeight: 1.1 }}>
+                <h1 style={{ fontSize: 'clamp(2.2rem, 6vw, 3.5rem)', fontWeight: 900, letterSpacing: '-0.03em', marginBottom: 16, textShadow: '0 4px 20px rgba(0,0,0,0.5)', lineHeight: 1.1 }}>
                   {event.name}
                 </h1>
                 
@@ -131,7 +131,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
         </div>
 
         {/* CONTENT GRID */}
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 5%', display: 'grid', gridTemplateColumns: 'minmax(0, 2fr) minmax(0, 1fr)', gap: 40 }}>
+        <div className="details-grid" style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 5%' }}>
           
           {/* Main Info */}
           <div>
@@ -178,8 +178,6 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
               </div>
             )}
 
-            {/* COMMUNITY & REVIEWS */}
-            <ReviewSection targetId={event.id} targetType="event" user={user} />
           </div>
 
           {/* Sidebar */}
@@ -197,13 +195,26 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                   </div>
                 </div>
 
-                {location?.address && (
-                  <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                {location?.address ? (
+                  <a 
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${location.address}, ${location.city}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ display: 'flex', gap: 12, alignItems: 'flex-start', textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
+                  >
                     <div style={{ background: '#27272a', padding: 10, borderRadius: 10 }}><MapPin size={18} style={{ color: '#e2e8f0' }} /></div>
                     <div>
                       <div style={{ fontSize: '0.8rem', color: '#a1a1aa', marginBottom: 2 }}>Location</div>
                       <div style={{ fontSize: '0.95rem', color: 'white', fontWeight: 600 }}>{location.name}</div>
                       <div style={{ fontSize: '0.85rem', color: '#a1a1aa', marginTop: 2 }}>{location.address}<br/>{location.city}</div>
+                    </div>
+                  </a>
+                ) : (
+                  <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                    <div style={{ background: '#27272a', padding: 10, borderRadius: 10 }}><MapPin size={18} style={{ color: '#e2e8f0' }} /></div>
+                    <div>
+                      <div style={{ fontSize: '0.8rem', color: '#a1a1aa', marginBottom: 2 }}>Location</div>
+                      <div style={{ fontSize: '0.95rem', color: 'white', fontWeight: 600 }}>Location TBA</div>
                     </div>
                   </div>
                 )}
@@ -227,6 +238,11 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
             </div>
           </div>
 
+        </div>
+
+        {/* COMMUNITY & REVIEWS */}
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 5% 40px 5%' }}>
+          <ReviewSection targetId={event.id} targetType="event" user={user} />
         </div>
       </main>
     </>
