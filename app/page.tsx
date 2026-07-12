@@ -10,7 +10,7 @@ const HERO_FALLBACKS = [
   'https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?auto=format&fit=crop&q=80&w=1000',
   'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=1000',
 ]
-import { MapPin, Star, ArrowRight } from 'lucide-react'
+import { MapPin, Star, ArrowRight, Music, GlassWater, Calendar, Map } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Clubify — Dein Nachtleben',
@@ -131,6 +131,15 @@ export default async function HomePage() {
     }
   }
 
+  // Get next event label for the mobile FOMO chip
+  const nextEvent = events[0] ?? null
+  let nextEventLabel = ''
+  if (nextEvent) {
+    const dateObj = new Date(nextEvent.date)
+    const dayName = dateObj.toLocaleDateString('de-DE', { weekday: 'short' })
+    nextEventLabel = `${nextEvent.name.slice(0, 10)}${nextEvent.name.length > 10 ? '..' : ''} (${dayName})`
+  }
+
   // Interleave clubs & bars for the venue showcase
   const venues: Array<{ type: 'club' | 'bar'; data: any }> = []
   const max = Math.max(clubs.length, bars.length)
@@ -160,6 +169,7 @@ export default async function HomePage() {
           favCount={favCount}
           favEventCount={favEventCount}
           preferredCity={preferredCity}
+          nextEventLabel={nextEventLabel}
         />
         <MarqueeSection />
         <VenueShowcase venues={showcase} />
@@ -185,6 +195,7 @@ interface HeroSectionProps {
   favCount: number
   favEventCount: number
   preferredCity: string
+  nextEventLabel: string
 }
 
 function HeroSection({
@@ -196,6 +207,7 @@ function HeroSection({
   favCount,
   favEventCount,
   preferredCity,
+  nextEventLabel,
 }: HeroSectionProps) {
   return (
     <section className="hero-v2">
@@ -240,14 +252,26 @@ function HeroSection({
               <HeroSearch />
             </div>
 
-            <div
+             <div
               className="quick-links"
               style={{ animation: 'fade-in-up 0.45s 0.4s ease forwards', opacity: 0, marginBottom: 40 }}
             >
-              <Link href="/clubs"  className="quick-link"             id="ql-clubs">🏛️ Clubs</Link>
-              <Link href="/bars"   className="quick-link"             id="ql-bars">🍸 Bars</Link>
-              <Link href="/events" className="quick-link"             id="ql-events">🎟️ Events</Link>
-              <Link href="/map"    className="quick-link quick-link-accent" id="ql-map">🗺️ Karte</Link>
+              <Link href="/clubs" className="quick-link" id="ql-clubs">
+                <Music size={13} style={{ opacity: 0.8 }} />
+                <span>Clubs</span>
+              </Link>
+              <Link href="/bars" className="quick-link" id="ql-bars">
+                <GlassWater size={13} style={{ opacity: 0.8 }} />
+                <span>Bars</span>
+              </Link>
+              <Link href="/events" className="quick-link" id="ql-events">
+                <Calendar size={13} style={{ opacity: 0.8 }} />
+                <span>Events</span>
+              </Link>
+              <Link href="/map" className="quick-link quick-link-accent" id="ql-map">
+                <Map size={13} style={{ opacity: 0.8 }} />
+                <span>Karte</span>
+              </Link>
             </div>
 
             {/* Dynamic FOMO Stats Grid */}
@@ -262,6 +286,7 @@ function HeroSection({
                 isLoggedIn={isLoggedIn}
                 favCount={favCount}
                 favEventCount={favEventCount}
+                nextEventLabel={nextEventLabel}
               />
             </div>
           </div>
@@ -318,7 +343,7 @@ function HeroSection({
       </div>
 
       {/* Scroll cue */}
-      <div style={{
+      <div className="hero-scroll-cue" style={{
         position: 'absolute', bottom: 24, left: '50%', transform: 'translateX(-50%)',
         zIndex: 3, animation: 'fade-in 1s 1.2s ease forwards', opacity: 0,
         display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,

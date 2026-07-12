@@ -7,7 +7,8 @@ import { createClient } from '@/lib/supabase/client'
 import { getDashboardRoute, type UserRole } from '@/lib/auth/rbac'
 import {
   Menu, X, Map, Calendar, Music2, Beer,
-  User, Users, LogOut, LayoutDashboard, ChevronDown, Bell
+  User, Users, LogOut, LayoutDashboard, ChevronDown, Bell, Home,
+  Ticket, Heart
 } from 'lucide-react'
 
 interface NavbarProps {
@@ -126,9 +127,10 @@ export default function Navbar({ user }: NavbarProps) {
   ]
 
   return (
-    <nav
-      id="main-navbar"
-      className="navbar"
+    <>
+      <nav
+        id="main-navbar"
+        className="navbar"
       style={{
         position: 'fixed',
         top: 0,
@@ -310,101 +312,127 @@ export default function Navbar({ user }: NavbarProps) {
             </div>
           )}
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button (Avatar if logged in, otherwise Hamburger) */}
           <button
             id="mobile-menu-btn"
             className="hide-desktop btn btn-ghost btn-icon"
+            style={{ width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            {menuOpen ? <X size={20} /> : <Menu size={20} />}
+            {menuOpen ? (
+              <X size={20} />
+            ) : user?.avatar_url ? (
+              <img
+                src={user.avatar_url}
+                alt="Profile"
+                style={{ width: 28, height: 28, borderRadius: '50%', border: '1.5px solid rgba(139, 92, 246, 0.5)', objectFit: 'cover' }}
+              />
+            ) : (
+              <Menu size={20} />
+            )}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Overlay (Premium Glassmorphic Drawer) */}
       {menuOpen && (
-        <div style={{
-          position: 'absolute', top: '100%', left: 0, right: 0,
-          background: 'rgb(var(--bg-surface))',
-          borderBottom: '1px solid rgb(var(--border))',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
-          padding: '16px 20px',
-          animation: 'fade-in-up 0.2s ease',
-        }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-            {navLinks.map(link => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: 10,
-                  padding: '12px 16px', borderRadius: 10,
-                  textDecoration: 'none', fontSize: '1rem', fontWeight: 500,
-                  color: pathname === link.href ? '#a78bfa' : 'rgb(var(--text-primary))',
-                  background: pathname === link.href ? 'rgba(139,92,246,0.1)' : 'transparent',
-                }}
-              >
-                <link.icon size={18} />
-                {link.label}
-              </Link>
-            ))}
+        <div className="mobile-menu-overlay">
+          <div className="mobile-menu-content">
+            
+            {/* User Profile Card or Guest Invite */}
             {!user ? (
-              <div style={{ display: 'flex', gap: 8, marginTop: 8, paddingTop: 16, borderTop: '1px solid rgb(var(--border))' }}>
-                <Link href="/auth/login" className="btn btn-secondary" style={{ flex: 1, justifyContent: 'center' }} onClick={() => setMenuOpen(false)}>
-                  {locale === 'de' ? 'Anmelden' : 'Sign In'}
-                </Link>
-                <Link href="/auth/register" className="btn btn-primary" style={{ flex: 1, justifyContent: 'center' }} onClick={() => setMenuOpen(false)}>
-                  {locale === 'de' ? 'Registrieren' : 'Register'}
-                </Link>
+              <div className="mobile-menu-guest-card">
+                <h3>Willkommen bei Clubify</h3>
+                <p>Melde dich an, um Tickets zu buchen und deine Lieblingsorte zu speichern.</p>
+                <div className="mobile-menu-auth-buttons">
+                  <Link href="/auth/login" className="btn btn-secondary" onClick={() => setMenuOpen(false)}>
+                    {locale === 'de' ? 'Anmelden' : 'Sign In'}
+                  </Link>
+                  <Link href="/auth/register" className="btn btn-primary" onClick={() => setMenuOpen(false)}>
+                    {locale === 'de' ? 'Registrieren' : 'Register'}
+                  </Link>
+                </div>
               </div>
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 8, paddingTop: 16, borderTop: '1px solid rgb(var(--border))' }}>
-                <div style={{ padding: '4px 16px 8px 16px', fontSize: '0.85rem', color: 'rgb(var(--text-muted))' }}>
-                  Eingeloggt als {user.full_name}
+              <div className="mobile-menu-user-card">
+                <div className="user-card-avatar">
+                  {user.avatar_url ? (
+                    <img src={user.avatar_url} alt="Profile" />
+                  ) : (
+                    <User size={20} style={{ color: '#a78bfa' }} />
+                  )}
                 </div>
-                {(() => {
-                  const links = []
-                  if (user.role !== 'user') {
-                    links.push({ href: getDashboardRoute(user.role), label: locale === 'de' ? 'Dashboard' : 'Dashboard', icon: LayoutDashboard })
-                  }
-                  links.push({ href: '/profile', label: locale === 'de' ? 'Mein Profil' : 'Profile', icon: User })
-                  return links
-                })().map(link => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setMenuOpen(false)}
-                    style={{
-                      display: 'flex', alignItems: 'center', gap: 10,
-                      padding: '12px 16px', borderRadius: 10,
-                      textDecoration: 'none', fontSize: '1rem', fontWeight: 500,
-                      color: 'rgb(var(--text-primary))',
-                    }}
-                  >
-                    <link.icon size={18} />
-                    {link.label}
-                  </Link>
-                ))}
-                
-                <button
-                  onClick={handleSignOut}
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: 10,
-                    padding: '12px 16px', borderRadius: 10,
-                    border: 'none', background: 'transparent',
-                    textDecoration: 'none', fontSize: '1rem', fontWeight: 500,
-                    color: 'rgb(239,68,68)', textAlign: 'left', cursor: 'pointer'
-                  }}
-                >
-                  <LogOut size={18} />
-                  {locale === 'de' ? 'Abmelden' : 'Sign Out'}
-                </button>
+                <div className="user-card-info">
+                  <div className="user-card-name">{user.full_name || 'Clubber'}</div>
+                  <div className="user-card-role-pill">
+                    {user.role === 'admin' ? 'Admin' : user.role === 'club_owner' ? 'Club-Partner' : user.role === 'bar_owner' ? 'Bar-Partner' : 'Member'}
+                  </div>
+                </div>
               </div>
             )}
+
+            {/* Menu Links (Redundant main links hidden on mobile!) */}
+            <div className="mobile-menu-links">
+              {user && (
+                <>
+                  {user.role !== 'user' && (
+                    <Link href={getDashboardRoute(user.role)} className="mobile-menu-link" onClick={() => setMenuOpen(false)}>
+                      <LayoutDashboard size={18} style={{ opacity: 0.8 }} />
+                      <span>Dashboard</span>
+                    </Link>
+                  )}
+                  <Link href="/profile" className="mobile-menu-link" onClick={() => setMenuOpen(false)}>
+                    <User size={18} style={{ opacity: 0.8 }} />
+                    <span>Mein Profil</span>
+                  </Link>
+                  <Link href="/profile?tab=tickets" className="mobile-menu-link" onClick={() => setMenuOpen(false)}>
+                    <Ticket size={18} style={{ opacity: 0.8 }} />
+                    <span>Meine Tickets</span>
+                  </Link>
+                  <Link href="/profile?tab=favorites" className="mobile-menu-link" onClick={() => setMenuOpen(false)}>
+                    <Heart size={18} style={{ opacity: 0.8 }} />
+                    <span>Meine Favoriten</span>
+                  </Link>
+                </>
+              )}
+
+              {/* Log Out */}
+              {user && (
+                <button onClick={handleSignOut} className="mobile-menu-logout-btn">
+                  <LogOut size={16} />
+                  <span>{locale === 'de' ? 'Abmelden' : 'Sign Out'}</span>
+                </button>
+              )}
+            </div>
+            
           </div>
         </div>
       )}
     </nav>
-  )
+
+    {/* MOBILE BOTTOM NAVIGATION (Instagram style) */}
+    <div className="mobile-bottom-nav">
+      <Link href="/" className={pathname === '/' ? 'active' : ''}>
+        <Home size={18} />
+        <span>Start</span>
+      </Link>
+      <Link href="/clubs" className={pathname === '/clubs' ? 'active' : ''}>
+        <Music2 size={18} />
+        <span>Clubs</span>
+      </Link>
+      <Link href="/bars" className={pathname === '/bars' ? 'active' : ''}>
+        <Beer size={18} />
+        <span>Bars</span>
+      </Link>
+      <Link href="/events" className={pathname === '/events' ? 'active' : ''}>
+        <Calendar size={18} />
+        <span>Events</span>
+      </Link>
+      <Link href="/map" className={pathname === '/map' ? 'active' : ''}>
+        <Map size={18} />
+        <span>Karte</span>
+      </Link>
+    </div>
+  </>
+)
 }
