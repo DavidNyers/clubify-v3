@@ -95,7 +95,7 @@ INSERT INTO public.bars (id, owner_id, name, slug, description, address, city, l
   ('20000000-0000-0000-0000-000000000006', '00000000-0000-0000-0000-000000000003',
    'Onyx Bar', 'onyx-bar',
    'Rooftop-Bar im Hotel Do & Co mit Blick auf den Stephansdom. Exklusiv.',
-   'Stephansplatz 12', 'Wien', 48.2087, 16.3723, 200, 5, 'published', true),
+   'Stephansplatz 12', 'Wien', 48.2087, 16.3723, 200, 4, 'published', true),
 
   ('20000000-0000-0000-0000-000000000007', '00000000-0000-0000-0000-000000000003',
    'Würstelstand Leo', 'wurstelstand-leo',
@@ -120,7 +120,7 @@ INSERT INTO public.bars (id, owner_id, name, slug, description, address, city, l
   ('20000000-0000-0000-0000-000000000011', '00000000-0000-0000-0000-000000000003',
    'Burgtheater Bar', 'burgtheater-bar',
    'Exklusive Bar direkt am Burgtheater. Hochprämierte Drinks nach Theaterstücken benannt.',
-   'Dr.-Karl-Lueger-Ring 2', 'Wien', 48.2106, 16.3618, 60, 5, 'published', false),
+   'Dr.-Karl-Lueger-Ring 2', 'Wien', 48.2106, 16.3618, 60, 4, 'published', false),
 
   ('20000000-0000-0000-0000-000000000012', '00000000-0000-0000-0000-000000000003',
    'Espresso Bar', 'espresso-bar-wien',
