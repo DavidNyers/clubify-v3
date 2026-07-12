@@ -444,7 +444,7 @@ export default function MapView({ clubs, bars, events }: MapViewProps) {
       {/* Responsive Filter Bar (Desktop ONLY) */}
       {!isMobile && (
         <div style={{ 
-          position: 'absolute', top: 24, left: '50%', transform: 'translateX(-50%)', zIndex: 100,
+          position: 'absolute', bottom: 'calc(32px + env(safe-area-inset-bottom, 0px))', left: '50%', transform: 'translateX(-50%)', zIndex: 100,
           display: 'flex', alignItems: 'center', boxShadow: '0 20px 50px rgba(0,0,0,0.5)',
           background: 'rgba(9, 9, 11, 0.85)', backdropFilter: 'blur(20px)', 
           borderRadius: 24, border: '1px solid rgba(255,255,255,0.1)', height: 60, padding: '0 10px'
@@ -493,10 +493,10 @@ export default function MapView({ clubs, bars, events }: MapViewProps) {
                   animate={{ opacity: 1, y: 5, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   style={{
-                    position: 'absolute', top: '100%', left: 0, width: 200,
+                    position: 'absolute', bottom: '100%', left: 0, width: 200,
                     background: '#18181b', borderRadius: 16, padding: 8,
                     border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 10px 40px rgba(0,0,0,0.5)',
-                    zIndex: 101, marginTop: 8
+                    zIndex: 101, marginBottom: 8
                   }}
                 >
                   {[
