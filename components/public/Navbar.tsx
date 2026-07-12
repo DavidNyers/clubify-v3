@@ -28,6 +28,37 @@ export default function Navbar({ user }: NavbarProps) {
   const supabase = createClient()
   const userMenuRef = useRef<HTMLDivElement>(null)
   const searchRef = useRef<HTMLDivElement>(null)
+  const [easterStats, setEasterStats] = useState<{ favs: number; wienEvents: number } | null>(null)
+
+  useEffect(() => {
+    if (!userMenuOpen || !user || easterStats) return
+
+    const fetchStats = async () => {
+      try {
+        const [{ count: favsCount }, { data: wienClubs }] = await Promise.all([
+          supabase.from('favorites').select('id', { count: 'exact', head: true }).eq('user_id', user.id),
+          supabase.from('clubs').select('id').eq('city', 'Wien').eq('status', 'published')
+        ])
+
+        let eventsCount = 0
+        const wcIds = wienClubs?.map(c => c.id) ?? []
+        if (wcIds.length > 0) {
+          const { count } = await supabase
+            .from('events')
+            .select('id', { count: 'exact', head: true })
+            .in('club_id', wcIds)
+            .eq('status', 'published')
+            .gte('date', new Date().toISOString())
+            .lte('date', new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString())
+          eventsCount = count ?? 0
+        }
+
+        setEasterStats({ favs: favsCount ?? 0, wienEvents: eventsCount })
+      } catch { /* ignore */ }
+    }
+
+    fetchStats()
+  }, [userMenuOpen, user])
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('clubify-theme') as 'dark' | 'light' || 'dark'
@@ -203,6 +234,25 @@ export default function Navbar({ user }: NavbarProps) {
                       {user.role.replace('_', ' ')}
                     </div>
                   </div>
+                  {easterStats && (
+                    <div style={{
+                      padding: '8px 16px',
+                      background: 'rgba(255,255,255,0.02)',
+                      borderBottom: '1px solid rgb(var(--border))',
+                      fontSize: '0.75rem',
+                      color: 'rgba(255,255,255,0.45)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 4
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <span>🔥</span> Wien: <strong>{easterStats.wienEvents} Events</strong> diese Woche
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <span>💜</span> <strong>{easterStats.favs} Favoriten</strong> gesichert
+                      </div>
+                    </div>
+                  )}
                   {(() => {
                     const links = []
                     if (user.role !== 'user') {
