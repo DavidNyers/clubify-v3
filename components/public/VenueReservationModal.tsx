@@ -58,11 +58,6 @@ export default function VenueReservationModal({ venueId, venueType, venueName, t
                   <X size={18} />
                 </button>
 
-                <header style={{ marginBottom: 20, textAlign: 'center' }}>
-                  <h2 className="reservation-modal-title">
-                    Tisch bei {venueName} reservieren
-                  </h2>
-                </header>
 
                 <VenueReservationForm 
                   venueId={venueId}
