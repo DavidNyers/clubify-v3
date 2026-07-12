@@ -1914,3 +1914,364 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* ============================================
+   PREMIUM site-footer
+   ============================================ */
+
+.site-footer {
+  background: linear-gradient(to bottom, #09090b 0%, #030307 100%);
+  border-top: 1px solid rgba(139, 92, 246, 0.15);
+  position: relative;
+  overflow: hidden;
+  padding: 80px 0 40px;
+}
+
+/* Glowing accent lines */
+.site-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #8b5cf6 30%, #ec4899 70%, transparent);
+  opacity: 0.45;
+  filter: blur(1px);
+}
+
+.site-footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(3, 1fr);
+  gap: 48px;
+  margin-bottom: 56px;
+}
+
+.site-footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.site-footer-logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.site-footer-logo-icon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
+}
+
+.site-footer-logo-text {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 900;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #c084fc, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.site-footer-desc {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  max-width: 260px;
+}
+
+.site-footer-links-wrap {
+  display: contents; /* Revert layout back on desktop */
+}
+
+.site-footer-title {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 20px;
+}
+
+.site-footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.site-footer-link {
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  font-size: 0.88rem;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.site-footer-link:hover {
+  color: #c084fc;
+  transform: translateX(4px);
+}
+
+.site-footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.site-footer-copyright {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.site-footer-socials {
+  display: flex;
+  gap: 12px;
+}
+
+.site-footer-social-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.site-footer-social-btn:hover {
+  background: rgba(139, 92, 246, 0.1);
+  border-color: rgba(139, 92, 246, 0.3);
+  color: #c084fc;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+}
+
+/* ============================================
+   RESERVATION FORM CLASSES
+   ============================================ */
+
+.reservation-modal-content {
+  padding: 32px;
+}
+
+.reservation-modal-title {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: white;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.reservation-form-card {
+  padding: 32px;
+}
+
+.reservation-selectors-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  position: relative;
+  z-index: 10;
+}
+
+.reservation-selector-btn {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.reservation-calendar-dropdown {
+  position: absolute;
+  top: 100%;
+  left: -50px;
+  width: 300px;
+  z-index: 99999 !important;
+  margin-top: 8px;
+  background-color: #18181b !important;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 24px;
+  padding: 16px;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+}
+
+.reservation-time-grid {
+  margin-top: 8px;
+  padding: 24px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.03);
+  max-width: 500px;
+  margin: 8px auto 0 auto;
+}
+
+.reservation-contact-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 16px;
+}
+
+.reservation-buttons-row {
+  display: flex;
+  gap: 12px;
+}
+
+/* ============================================
+   MOBILE SPACING OVERRIDES
+   ============================================ */
+
+@media (max-width: 767px) {
+  /* Tighter sections on mobile */
+  .section {
+    padding: 40px 0 !important;
+  }
+  .section-sm {
+    padding: 24px 0 !important;
+  }
+
+  /* Footer mobile overrides */
+  .site-footer {
+    padding: 48px 0 calc(96px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  .site-footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+    margin-bottom: 36px !important;
+  }
+
+  .site-footer-brand {
+    align-items: center;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 24px;
+    margin-bottom: 8px;
+  }
+
+  .site-footer-desc {
+    max-width: 300px;
+    font-size: 0.85rem;
+  }
+
+  /* Responsive links columns: 2-column layout for links! */
+  .site-footer-links-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    text-align: left;
+  }
+
+  /* Make company column occupy full width below the 2 columns */
+  .site-footer-col-company {
+    grid-column: span 2;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 20px;
+  }
+
+  .site-footer-title {
+    margin-bottom: 12px !important;
+    font-size: 0.68rem !important;
+  }
+
+  .site-footer-link {
+    font-size: 0.82rem !important;
+  }
+
+  .site-footer-bottom {
+    flex-direction: column !important;
+    text-align: center;
+    align-items: center;
+    padding-top: 20px !important;
+    gap: 16px !important;
+  }
+
+  /* Reservation Form mobile adjustments */
+  .reservation-modal-content {
+    padding: 16px 12px 24px !important;
+    border-radius: 24px !important;
+    max-height: 94vh !important;
+  }
+
+  .reservation-modal-title {
+    font-size: 1.25rem !important;
+  }
+
+  .reservation-form-card {
+    padding: 16px 12px !important;
+    border-radius: 24px !important;
+  }
+
+  .reservation-selectors-grid {
+    gap: 6px !important;
+  }
+
+  .reservation-selector-btn {
+    padding: 10px 6px !important;
+  }
+
+  .reservation-selector-btn span {
+    font-size: 0.8rem !important;
+  }
+
+  /* Fixed centered modal view for calendar picker on mobile */
+  .reservation-calendar-dropdown {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: calc(100% - 32px) !important;
+    max-width: 320px !important;
+    background-color: #18181b !important;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.95) !important;
+    z-index: 99999 !important;
+  }
+
+  .reservation-time-grid {
+    padding: 12px !important;
+    border-radius: 16px !important;
+  }
+
+  .reservation-contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .reservation-buttons-row {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+
+  .reservation-buttons-row button {
+    width: 100% !important;
+    padding: 16px !important;
+  }
+}
+
+

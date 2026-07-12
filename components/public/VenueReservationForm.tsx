@@ -5,7 +5,8 @@ import {
   Calendar, Users, Clock, 
   User, Mail, Phone, MessageSquare, 
   Check, Loader2, Armchair, 
-  ChevronRight, ChevronLeft, ChevronDown
+  ChevronRight, ChevronLeft, ChevronDown,
+  Minus, Plus
 } from 'lucide-react'
 import { requestPublicReservation, checkAvailability } from '@/lib/actions/venue/ReservationActions'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -170,57 +171,51 @@ export default function VenueReservationForm({ venueId, venueType, venueName, so
       <form onSubmit={(e) => handleSubmit(e)} style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
               {step === 1 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-            <div className="glass" style={{ background: 'rgba(24, 24, 27, 0.4)', border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: 32, padding: 32, backdropFilter: 'blur(20px)' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, marginBottom: 28 }}>
-                <div style={{ padding: 10, background: 'rgba(139, 92, 246, 0.1)', borderRadius: 12 }}>
-                    <Armchair size={20} color="#8b5cf6" />
-                </div>
-                <h3 style={{ fontSize: '1.2rem', fontWeight: 950, color: 'white', margin: 0, textAlign: 'center' }}>Termin & Gäste</h3>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, position: 'relative', zIndex: 10 }}>
+            <div className="glass reservation-form-card" style={{ background: 'rgba(24, 24, 27, 0.4)', border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: 32, backdropFilter: 'blur(20px)' }}>
+              <div className="reservation-selectors-grid">
                  {/* GUESTS SELECTOR */}
-                 <div style={{ position: 'relative' }}>
-                    <label style={{ display: 'block', fontSize: '0.65rem', fontWeight: 800, color: '#71717a', textTransform: 'uppercase', marginBottom: 6, marginLeft: 2 }}>Personen</label>
-                    <div 
-                      onClick={() => setActivePicker(activePicker === 'guests' ? null : 'guests')}
-                      style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 12, padding: '12px 14px', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer' }}
-                    >
-                       <span style={{ fontWeight: 800, fontSize: '0.9rem' }}>{formData.guests}</span>
-                       <ChevronDown size={14} color="#52525b" />
-                    </div>
-                    
-                    <AnimatePresence>
-                      {activePicker === 'guests' && (
-                        <motion.div 
-                          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }}
-                          style={{ position: 'absolute', top: '100%', left: 0, width: 200, zIndex: 60, marginTop: 8, background: '#18181b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: 12, boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }}
-                        >
-                           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6 }}>
-                              {[1,2,3,4,5,6,7,8,10,12,15,20].map(g => (
-                                <div 
-                                  key={g}
-                                  onClick={() => { setFormData({...formData, guests: g}); setActivePicker(null); }}
-                                  style={{ 
-                                    padding: '8px 0', borderRadius: 8, textAlign: 'center', fontSize: '0.8rem', fontWeight: 800, 
-                                    background: formData.guests === g ? '#8b5cf6' : 'rgba(255,255,255,0.03)', 
-                                    color: 'white', cursor: 'pointer' 
-                                  }}
-                                >
-                                  {g}
-                                </div>
-                              ))}
-                           </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                 </div>
+                  <div style={{ position: 'relative' }}>
+                     <label style={{ display: 'block', fontSize: '0.65rem', fontWeight: 800, color: '#71717a', textTransform: 'uppercase', marginBottom: 6, marginLeft: 2 }}>Personen</label>
+                     <div 
+                       onClick={() => setActivePicker(activePicker === 'guests' ? null : 'guests')}
+                       className="reservation-selector-btn"
+                     >
+                        <span style={{ fontWeight: 800, fontSize: '0.9rem' }}>{formData.guests}</span>
+                        <ChevronDown size={14} color="#52525b" />
+                     </div>
+                     
+                     <AnimatePresence>
+                       {activePicker === 'guests' && (
+                         <motion.div 
+                           initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }}
+                           style={{ position: 'absolute', top: '100%', left: 0, width: 200, zIndex: 60, marginTop: 8, background: '#18181b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: 12, boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }}
+                         >
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6 }}>
+                               {[1,2,3,4,5,6,7,8,10,12,15,20].map(g => (
+                                 <div 
+                                   key={g}
+                                   onClick={() => { setFormData({...formData, guests: g}); setActivePicker(null); }}
+                                   style={{ 
+                                     padding: '8px 0', borderRadius: 8, textAlign: 'center', fontSize: '0.8rem', fontWeight: 800, 
+                                     background: formData.guests === g ? '#8b5cf6' : 'rgba(255,255,255,0.03)', 
+                                     color: 'white', cursor: 'pointer' 
+                                   }}
+                                 >
+                                   {g}
+                                 </div>
+                               ))}
+                            </div>
+                         </motion.div>
+                       )}
+                     </AnimatePresence>
+                  </div>
 
                  {/* DATE SELECTOR */}
                  <div style={{ position: 'relative' }}>
                     <label style={{ display: 'block', fontSize: '0.65rem', fontWeight: 800, color: '#71717a', textTransform: 'uppercase', marginBottom: 6, marginLeft: 2 }}>Datum</label>
                     <div 
                       onClick={() => setActivePicker(activePicker === 'date' ? null : 'date')}
-                      style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 12, padding: '12px 14px', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer' }}
+                      className="reservation-selector-btn"
                     >
                        <span style={{ fontWeight: 800, fontSize: '0.9rem' }}>{formData.date === new Date().toISOString().split('T')[0] ? 'Heute' : formData.date.split('-').reverse().join('.')}</span>
                        <ChevronDown size={14} color="#52525b" />
@@ -230,7 +225,7 @@ export default function VenueReservationForm({ venueId, venueType, venueName, so
                       {activePicker === 'date' && (
                         <motion.div 
                           initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}
-                          style={{ position: 'absolute', top: '100%', left: -50, width: 300, zIndex: 100, marginTop: 8, background: '#121214', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 24, padding: 16, boxShadow: '0 30px 60px rgba(0,0,0,0.8)' }}
+                          className="reservation-calendar-dropdown"
                         >
                            <CalendarPicker 
                              selectedDate={formData.date} 
@@ -248,7 +243,7 @@ export default function VenueReservationForm({ venueId, venueType, venueName, so
                     <label style={{ display: 'block', fontSize: '0.65rem', fontWeight: 800, color: '#71717a', textTransform: 'uppercase', marginBottom: 6, marginLeft: 2 }}>Uhrzeit</label>
                     <div 
                       onClick={() => setActivePicker(activePicker === 'time' ? null : 'time')}
-                      style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 12, padding: '12px 14px', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer' }}
+                      className="reservation-selector-btn"
                     >
                        <span style={{ fontWeight: 800, fontSize: '0.9rem' }}>{formData.time}</span>
                        <ChevronDown size={14} color="#52525b" />
@@ -291,7 +286,7 @@ export default function VenueReservationForm({ venueId, venueType, venueName, so
               </div>
 
               {/* STABLE TIME GRID OVERHAUL */}
-              <div id="time-grid" style={{ marginTop: 8, padding: '24px', background: 'rgba(0,0,0,0.2)', borderRadius: 24, border: '1px solid rgba(255,255,255,0.03)', maxWidth: 500, margin: '8px auto 0 auto' }}>
+              <div id="time-grid" className="reservation-time-grid">
                 <div style={{ textAlign: 'center', marginBottom: 20 }}>
                   <span style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: '#8b5cf6', fontWeight: 950 }}>
                     Zeit auswählen
@@ -375,14 +370,7 @@ export default function VenueReservationForm({ venueId, venueType, venueName, so
               </button>
             </div>
 
-            <div className="glass" style={{ background: 'rgba(24, 24, 27, 0.4)', border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: 32, padding: 32, backdropFilter: 'blur(20px)' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, marginBottom: 28 }}>
-                <div style={{ padding: 10, background: 'rgba(236, 72, 153, 0.1)', borderRadius: 12 }}>
-                    <User size={20} color="#ec4899" />
-                </div>
-                <h3 style={{ fontSize: '1.2rem', fontWeight: 950, color: 'white', margin: 0, textAlign: 'center' }}>Kontaktdaten</h3>
-              </div>
-
+            <div className="glass reservation-form-card" style={{ background: 'rgba(24, 24, 27, 0.4)', border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: 32, backdropFilter: 'blur(20px)' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                 <div>
                    <div style={{ position: 'relative' }}>
@@ -395,7 +383,7 @@ export default function VenueReservationForm({ venueId, venueType, venueName, so
                    </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 16 }}>
+                <div className="reservation-contact-grid">
                    <div style={{ position: 'relative' }}>
                       <Mail size={16} style={{ position: 'absolute', left: 16, top: 16, color: '#52525b' }} />
                       <input 
@@ -425,7 +413,7 @@ export default function VenueReservationForm({ venueId, venueType, venueName, so
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: 12 }}>
+            <div className="reservation-buttons-row">
               <button 
                 type="button"
                 onClick={() => setStep(1)}

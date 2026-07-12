@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import { X, Armchair } from 'lucide-react'
+import { X, Calendar } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import VenueReservationForm from './VenueReservationForm'
 
@@ -44,9 +44,10 @@ export default function VenueReservationModal({ venueId, venueType, venueName, t
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                className="reservation-modal-content"
                 style={{ 
                   position: 'relative', width: '100%', maxWidth: 650, maxHeight: '90vh', overflowY: 'auto',
-                  background: '#18181b', border: '1px solid #27272a', borderRadius: 32, padding: 32,
+                  background: '#18181b', border: '1px solid #27272a', borderRadius: 32,
                   boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)', zIndex: 10
                 }}
               >
@@ -57,11 +58,10 @@ export default function VenueReservationModal({ venueId, venueType, venueName, t
                   <X size={18} />
                 </button>
 
-                <header style={{ marginBottom: 24, textAlign: 'center' }}>
-                  <h2 style={{ fontSize: '1.5rem', fontWeight: 900, color: 'white', marginBottom: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
-                    <Armchair style={{ color: '#3b82f6' }} size={28} /> Tisch bei {venueName} reservieren
+                <header style={{ marginBottom: 20, textAlign: 'center' }}>
+                  <h2 className="reservation-modal-title">
+                    Tisch bei {venueName} reservieren
                   </h2>
-                  <p style={{ color: '#71717a', fontSize: '0.9rem' }}>Fülle das Formular aus, um deine Anfrage zu senden.</p>
                 </header>
 
                 <VenueReservationForm 
