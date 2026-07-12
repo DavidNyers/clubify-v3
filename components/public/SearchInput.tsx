@@ -215,93 +215,100 @@ export default function SearchInput({ placeholder, type = 'clubs' }: SearchInput
             <motion.div 
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               onClick={() => setIsDrawerOpen(false)}
-              style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)', zIndex: 100 }}
+              style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)', zIndex: 1000 }}
             />
             <motion.div
               initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
               style={{ 
                 position: 'fixed', right: 0, top: 0, bottom: 0, width: '85%', maxWidth: 400, 
-                background: '#09090b', borderLeft: '1px solid #27272a', zIndex: 101, padding: '32px 24px',
-                display: 'flex', flexDirection: 'column', gap: 32
+                background: '#09090b', borderLeft: '1px solid #27272a', zIndex: 1001, 
+                display: 'flex', flexDirection: 'column'
               }}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h2 style={{ fontSize: '1.5rem', fontWeight: 900 }}>Filter</h2>
-                <button onClick={() => setIsDrawerOpen(false)} style={{ background: '#18181b', border: 'none', padding: 8, borderRadius: 12, color: 'white' }}>
-                  <X size={24} />
+              {/* Header (Pinned) */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px 24px 16px', flexShrink: 0 }}>
+                <h2 style={{ fontSize: '1.5rem', fontWeight: 900, margin: 0 }}>Filter</h2>
+                <button onClick={() => setIsDrawerOpen(false)} style={{ background: '#18181b', border: 'none', padding: 8, borderRadius: 12, color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <X size={20} />
                 </button>
               </div>
 
-              {/* Price Group */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                <label style={{ fontSize: '0.8rem', fontWeight: 800, color: '#71717a', textTransform: 'uppercase' }}>Preisklasse</label>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
-                   {['1', '2', '3', '4'].map(p => (
-                    <button
-                      key={p}
-                      onClick={() => togglePrice(p)}
-                      style={{
-                        height: 54, borderRadius: 16, border: '1px solid',
-                        borderColor: currentPrice === p ? '#8b5cf6' : '#27272a',
-                        background: currentPrice === p ? 'linear-gradient(135deg, #8b5cf6, #ec4899)' : '#18181b',
-                        color: currentPrice === p ? 'white' : '#a1a1aa',
-                        fontSize: '0.9rem', fontWeight: 800, transition: 'all 0.2s'
-                      }}
-                    >
-                      {'€'.repeat(parseInt(p))}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Genre Group */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                <label style={{ fontSize: '0.8rem', fontWeight: 800, color: '#71717a', textTransform: 'uppercase' }}>Kategorie / Genre</label>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, maxHeight: 200, overflowY: 'auto', paddingRight: 4 }}>
-                   {GENRES_BY_TYPE[type].map(g => (
-                    <button
-                      key={g}
-                      onClick={() => toggleGenre(g)}
-                      style={{
-                        padding: '14px 8px', borderRadius: 16, border: '1px solid',
-                        borderColor: currentGenre === g ? '#8b5cf6' : '#27272a',
-                        background: currentGenre === g ? 'rgba(139, 92, 246, 0.1)' : '#18181b',
-                        color: currentGenre === g ? 'white' : '#a1a1aa',
-                        fontSize: '0.85rem', fontWeight: 600, transition: 'all 0.2s'
-                      }}
-                    >
-                      {g}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Options Group */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                <label style={{ fontSize: '0.8rem', fontWeight: 800, color: '#71717a', textTransform: 'uppercase' }}>Optionen</label>
+              {/* Scrollable Content Container */}
+              <div style={{ flexGrow: 1, overflowY: 'auto', padding: '0 24px 24px', display: 'flex', flexDirection: 'column', gap: 24 }} className="custom-scrollbar">
                 
-                <button onClick={toggleOpenToday} style={{ width: '100%', height: 60, borderRadius: 18, border: '1px solid', borderColor: isOpenToday ? '#8b5cf6' : '#27272a', background: isOpenToday ? 'rgba(139, 92, 246, 0.1)' : '#18181b', color: 'white', fontSize: '0.95rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <Calendar size={20} />
-                    <span>Heute</span>
+                {/* Price Group */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  <label style={{ fontSize: '0.75rem', fontWeight: 800, color: '#71717a', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Preisklasse</label>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
+                     {['1', '2', '3', '4'].map(p => (
+                      <button
+                        key={p}
+                        onClick={() => togglePrice(p)}
+                        style={{
+                          height: 48, borderRadius: 12, border: '1px solid',
+                          borderColor: currentPrice === p ? '#8b5cf6' : '#27272a',
+                          background: currentPrice === p ? 'linear-gradient(135deg, #8b5cf6, #ec4899)' : '#18181b',
+                          color: currentPrice === p ? 'white' : '#a1a1aa',
+                          fontSize: '0.85rem', fontWeight: 800, transition: 'all 0.2s', cursor: 'pointer'
+                        }}
+                      >
+                        {'€'.repeat(parseInt(p))}
+                      </button>
+                    ))}
                   </div>
-                  <div style={{ width: 18, height: 18, borderRadius: '50%', background: isOpenToday ? '#8b5cf6' : '#3f3f46' }} />
-                </button>
+                </div>
 
-                {type === 'bars' && (
-                  <button onClick={toggleHappyHour} style={{ width: '100%', height: 60, borderRadius: 18, border: '1px solid', borderColor: isHappyHour ? '#10b981' : '#27272a', background: isHappyHour ? 'rgba(16, 185, 129, 0.1)' : '#18181b', color: 'white', fontSize: '0.95rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <Percent size={20} />
-                      <span>Happy Hour</span>
+                {/* Genre Group */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  <label style={{ fontSize: '0.75rem', fontWeight: 800, color: '#71717a', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Kategorie / Genre</label>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+                     {GENRES_BY_TYPE[type].map(g => (
+                      <button
+                        key={g}
+                        onClick={() => toggleGenre(g)}
+                        style={{
+                          padding: '12px 6px', borderRadius: 12, border: '1px solid',
+                          borderColor: currentGenre === g ? '#8b5cf6' : '#27272a',
+                          background: currentGenre === g ? 'rgba(139, 92, 246, 0.1)' : '#18181b',
+                          color: currentGenre === g ? 'white' : '#a1a1aa',
+                          fontSize: '0.8rem', fontWeight: 600, transition: 'all 0.2s', cursor: 'pointer'
+                        }}
+                      >
+                        {g}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Options Group */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  <label style={{ fontSize: '0.75rem', fontWeight: 800, color: '#71717a', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Optionen</label>
+                  
+                  <button onClick={toggleOpenToday} style={{ width: '100%', height: 52, borderRadius: 14, border: '1px solid', borderColor: isOpenToday ? '#8b5cf6' : '#27272a', background: isOpenToday ? 'rgba(139, 92, 246, 0.1)' : '#18181b', color: 'white', fontSize: '0.9rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px', cursor: 'pointer' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <Calendar size={18} />
+                      <span>Heute</span>
                     </div>
-                    <div style={{ width: 18, height: 18, borderRadius: '50%', background: isHappyHour ? '#10b981' : '#3f3f46' }} />
+                    <div style={{ width: 14, height: 14, borderRadius: '50%', background: isOpenToday ? '#8b5cf6' : '#3f3f46' }} />
                   </button>
-                )}
+
+                  {type === 'bars' && (
+                    <button onClick={toggleHappyHour} style={{ width: '100%', height: 52, borderRadius: 14, border: '1px solid', borderColor: isHappyHour ? '#10b981' : '#27272a', background: isHappyHour ? 'rgba(16, 185, 129, 0.1)' : '#18181b', color: 'white', fontSize: '0.9rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px', cursor: 'pointer' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                        <Percent size={18} />
+                        <span>Happy Hour</span>
+                      </div>
+                      <div style={{ width: 14, height: 14, borderRadius: '50%', background: isHappyHour ? '#10b981' : '#3f3f46' }} />
+                    </button>
+                  )}
+                </div>
+
               </div>
 
-              <div style={{ marginTop: 'auto', display: 'flex', gap: 12 }}>
-                <button onClick={() => setIsDrawerOpen(false)} style={{ flex: 1, padding: '20px', borderRadius: 20, border: 'none', background: 'linear-gradient(135deg, #8b5cf6, #ec4899)', color: 'white', fontWeight: 800, fontSize: '1rem' }}>Anwenden</button>
+              {/* Footer (Pinned) */}
+              <div style={{ padding: '16px 24px calc(16px + env(safe-area-inset-bottom, 0px))', borderTop: '1px solid #27272a', background: '#09090b', flexShrink: 0, display: 'flex', gap: 12 }}>
+                <button onClick={() => setIsDrawerOpen(false)} style={{ flex: 1, padding: '16px', borderRadius: 16, border: 'none', background: 'linear-gradient(135deg, #8b5cf6, #ec4899)', color: 'white', fontWeight: 800, fontSize: '1rem', cursor: 'pointer' }}>Anwenden</button>
               </div>
             </motion.div>
           </>

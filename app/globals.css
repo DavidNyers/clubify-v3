@@ -1350,7 +1350,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 767px) {
-  main {
+  main:not(.map-main) {
     padding-bottom: calc(65px + env(safe-area-inset-bottom, 0px)) !important;
   }
   .hero-v2 {
@@ -1570,3 +1570,347 @@ h1, h2, h3, h4, h5, h6 {
     display: none;
   }
 }
+
+/* ============================================
+   RESPONSIVE VENUE & EVENT LISTINGS
+   ============================================ */
+
+.listings-header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.listings-title {
+  font-size: clamp(1.8rem, 6vw, 2.5rem);
+  font-weight: 900;
+  margin-bottom: 8px;
+  display: inline-block;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.listings-title.clubs-color {
+  background-image: linear-gradient(135deg, #8b5cf6, #ec4899);
+}
+
+.listings-title.bars-color {
+  background-image: linear-gradient(135deg, #10b981, #3b82f6);
+}
+
+.listings-title.events-color {
+  background-image: linear-gradient(135deg, #f59e0b, #fbbf24);
+}
+
+.listings-desc {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: clamp(0.85rem, 2.8vw, 1.05rem);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.4;
+}
+
+.listings-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .listings-grid {
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 24px;
+  }
+}
+
+/* Listing Card styling */
+.listing-card-wrap {
+  text-decoration: none;
+  display: block;
+}
+
+.listing-card {
+  background: #18181b;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  flex-direction: row; /* Horizontal on mobile */
+  align-items: center;
+}
+
+.listing-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(139, 92, 246, 0.35);
+  box-shadow: 0 12px 30px rgba(139, 92, 246, 0.1);
+}
+
+/* Card Image wrapper */
+.listing-card-img-wrap {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.listing-card-img-wrap img {
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.listing-card:hover .listing-card-img-wrap img {
+  transform: scale(1.06);
+}
+
+/* Card Content wrapper */
+.listing-card-content {
+  padding: 10px 14px 10px 4px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0; /* Important for ellipsis */
+  height: 100px;
+}
+
+.listing-card-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.listing-card-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: white;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.listing-card-rating {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #f59e0b;
+  flex-shrink: 0;
+}
+
+.listing-card-info-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.78rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+}
+
+.listing-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: auto;
+}
+
+.listing-card-tag {
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.68rem;
+  font-weight: 750;
+}
+
+.listing-card-tag.clubs-tag {
+  background: rgba(167, 139, 250, 0.1);
+  color: #c4b5fd;
+}
+
+.listing-card-tag.bars-tag {
+  background: rgba(59, 130, 246, 0.15);
+  color: #93c5fd;
+}
+
+.listing-card-tag.events-tag {
+  background: rgba(245, 158, 11, 0.1);
+  color: #fcd34d;
+}
+
+/* Event ticket footer in horizontal mode */
+.listing-card-ticket-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin-top: 4px;
+}
+
+/* Badges positioned inside image wrapper */
+.listing-card-badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  font-size: 0.6rem;
+  font-weight: 900;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  z-index: 5;
+}
+
+.listing-card-date-badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  background: rgba(24, 24, 27, 0.85);
+  backdrop-filter: blur(8px);
+  color: white;
+  padding: 4px 6px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid rgba(255,255,255,0.08);
+  z-index: 5;
+  line-height: 1.1;
+}
+
+.listing-card-date-badge-month {
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  color: #fbbf24;
+  font-weight: 800;
+}
+
+.listing-card-date-badge-day {
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+/* RESPONSIVE LAYOUT SWITCH: VERTICAL DISPLAY ON DESKTOP */
+@media (min-width: 640px) {
+  .listing-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .listing-card-img-wrap {
+    width: auto;
+    height: 200px;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .listing-card-content {
+    padding: 20px;
+    height: auto;
+  }
+
+  .listing-card-title {
+    font-size: 1.25rem;
+  }
+
+  .listing-card-rating {
+    font-size: 0.85rem;
+    padding: 4px 8px;
+  }
+
+  .listing-card-info-row {
+    font-size: 0.88rem;
+    margin-top: 4px;
+  }
+
+  .listing-card-tags {
+    gap: 6px;
+    margin-top: 14px;
+  }
+
+  .listing-card-tag {
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 0.72rem;
+  }
+
+  .listing-card-ticket-row {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 12px;
+    margin-top: 12px;
+    font-size: 0.88rem;
+  }
+}
+
+/* ============================================
+   FLOATING SEARCH BAR ON MOBILE LISTINGS
+   ============================================ */
+
+@media (max-width: 767px) {
+  /* Hide the descriptive listings text completely on mobile */
+  .listings-desc {
+    display: none !important;
+  }
+
+  /* Compress listings header margins on mobile */
+  .listings-header {
+    margin-bottom: 24px !important;
+  }
+
+  /* Sticky/floating search bar wrapper at the bottom */
+  .listings-search-container {
+    position: fixed;
+    bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+    left: 0;
+    right: 0;
+    padding: 12px 20px;
+    z-index: 1005;
+    pointer-events: none; /* Allows user to click cards underneath empty spaces */
+  }
+
+  /* Activate clicks/taps for search bar itself */
+  .listings-search-container > div,
+  .listings-search-container .search-container {
+    pointer-events: auto !important;
+    max-width: 480px;
+    margin: 0 auto 0 !important; /* Reset margin bottom to fit nicely */
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65) !important;
+    border-radius: 100px !important;
+    background: rgba(24, 24, 27, 0.85) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  }
+
+  /* Reduce height/padding of the input container for compact layout */
+  .listings-search-container .search-container {
+    min-height: 52px !important;
+    padding: 4px 8px 4px 16px !important;
+  }
+
+  /* Extra spacing at the bottom of the scroll list so no cards are covered */
+  .listings-main {
+    padding-bottom: calc(145px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .listings-search-container {
+    margin-bottom: 40px;
+  }
+}
+

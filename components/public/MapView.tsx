@@ -573,7 +573,7 @@ export default function MapView({ clubs, bars, events }: MapViewProps) {
           onTouchEnd={(e) => e.stopPropagation()}
           onMouseDown={(e) => e.stopPropagation()}
           style={{ 
-            position: 'absolute', bottom: 24, left: 16, right: 16, zIndex: 100,
+            position: 'absolute', bottom: 'calc(76px + env(safe-area-inset-bottom, 0px))', left: 16, right: 16, zIndex: 100,
             display: 'flex', flexDirection: 'column', gap: 10
           }}
         >
@@ -765,7 +765,7 @@ export default function MapView({ clubs, bars, events }: MapViewProps) {
         }
         @media (max-width: 1023px) {
           .maplibregl-ctrl-bottom-right {
-            bottom: ${isMobileFilterExpanded ? '310px' : '90px'} !important;
+            bottom: ${isMobileFilterExpanded ? 'calc(360px + env(safe-area-inset-bottom, 0px))' : 'calc(138px + env(safe-area-inset-bottom, 0px))'} !important;
             transition: bottom 0.2s ease-in-out;
           }
         }
