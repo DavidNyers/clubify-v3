@@ -467,8 +467,12 @@ h1, h2, h3, h4, h5, h6 {
 
   .details-grid {
     gap: 24px !important;
-    padding-top: 56px !important; /* More space at the top below the hero section */
+    padding-top: 24px !important; /* Reduced space below the hero section */
     padding-bottom: 120px !important; /* Extra bottom padding so floating buttons don't overlay content */
+  }
+
+  .details-hero-content {
+    bottom: 20px !important;
   }
 
   .details-section {

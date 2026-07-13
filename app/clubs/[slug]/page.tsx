@@ -82,7 +82,7 @@ export default async function ClubDetailPage({ params }: { params: Promise<{ slu
             </div>
 
             {/* Title & Stats */}
-            <div style={{ position: 'absolute', bottom: 40, left: '5%', right: '5%' }}>
+            <div className="details-hero-content" style={{ position: 'absolute', bottom: 40, left: '5%', right: '5%' }}>
               <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 900, letterSpacing: '-0.03em', marginBottom: 16, textShadow: '0 4px 20px rgba(0,0,0,0.5)', lineHeight: 1.1 }}>
                 {club.name}
               </h1>
