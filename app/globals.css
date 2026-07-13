@@ -1699,9 +1699,7 @@ h1, h2, h3, h4, h5, h6 {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  /* Proven flex truncation trick: width:0 + flex-grow forces shrink */
-  width: 0;
-  flex-grow: 1;
+  width: 100%;
 }
 
 /* ── Booking.com-style card elements ── */
