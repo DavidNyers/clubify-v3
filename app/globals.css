@@ -449,6 +449,17 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 40px;
 }
 
+.details-section-title {
+  font-size: clamp(1.2rem, 3.5vw, 1.4rem) !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+  margin-bottom: 16px !important;
+  letter-spacing: -0.02em !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
 @media (max-width: 767px) {
   .details-hero {
     height: 40vh !important;

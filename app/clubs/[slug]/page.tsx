@@ -119,7 +119,7 @@ export default async function ClubDetailPage({ params }: { params: Promise<{ slu
           {/* Main Info */}
           <div className="details-main">
             <div className="details-section">
-              <h2 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: 16, color: '#fff' }}>Über den Club</h2>
+              <h2 className="details-section-title">Über den Club</h2>
               <p style={{ color: '#a1a1aa', lineHeight: 1.7, fontSize: '1.05rem' }}>
                 {club.description || 'Dieser Club hat noch keine detaillierte Beschreibung hinterlegt, aber die Tanzfläche wartet bereits auf dich.'}
               </p>
@@ -128,7 +128,7 @@ export default async function ClubDetailPage({ params }: { params: Promise<{ slu
             {/* Music Genres */}
             {club.music_genres && club.music_genres.length > 0 && (
               <div className="details-section">
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <h3 className="details-section-title">
                   <Music size={18} style={{ color: '#ec4899' }} /> Musik Styles
                 </h3>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
@@ -144,7 +144,7 @@ export default async function ClubDetailPage({ params }: { params: Promise<{ slu
             {/* Upcoming Events */}
             <div className="details-section">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 20 }}>
-                <h3 style={{ fontSize: '1.2rem', fontWeight: 800 }}>Anstehende Events</h3>
+                <h3 className="details-section-title" style={{ marginBottom: 0 }}>Anstehende Events</h3>
                 <Link href="#" className="hover-text-violet" style={{ color: '#8b5cf6', fontSize: '0.9rem', fontWeight: 600, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}>
                   Alle ansehen <ArrowRight size={14} />
                 </Link>
@@ -184,7 +184,7 @@ export default async function ClubDetailPage({ params }: { params: Promise<{ slu
           <div className="details-sidebar" style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
             {/* Info Box */}
             <div style={{ background: '#18181b', border: '1px solid #27272a', borderRadius: 24, padding: 24, position: 'relative' }}>
-              <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 24 }}>Club Infos</h3>
+              <h3 className="sidebar-title details-section-title">Club Infos</h3>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                 {club.address ? (

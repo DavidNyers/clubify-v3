@@ -114,7 +114,7 @@ export default async function BarDetailPage({ params }: { params: Promise<{ slug
           {/* Main Info */}
           <div className="details-main">
             <div className="details-section">
-              <h2 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: 16, color: '#fff' }}>Über die Bar</h2>
+              <h2 className="details-section-title">Über die Bar</h2>
               <p style={{ color: '#a1a1aa', lineHeight: 1.7, fontSize: '1.05rem' }}>
                 {bar.description || 'Diese Bar hat noch keine detaillierte Beschreibung hinterlegt.'}
               </p>
@@ -123,7 +123,7 @@ export default async function BarDetailPage({ params }: { params: Promise<{ slug
             {/* Drink Types stattdessen music_genres */}
             {bar.drink_types && bar.drink_types.length > 0 && (
               <div className="details-section">
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <h3 className="details-section-title">
                   <GlassWater size={18} style={{ color: '#3b82f6' }} /> Spezialitäten
                 </h3>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
@@ -139,7 +139,7 @@ export default async function BarDetailPage({ params }: { params: Promise<{ slug
             {/* Happy Hours / Upcoming */}
             <div className="details-section">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 20 }}>
-                <h3 style={{ fontSize: '1.2rem', fontWeight: 800 }}>Events & Highlights</h3>
+                <h3 className="details-section-title" style={{ marginBottom: 0 }}>Events & Highlights</h3>
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -176,7 +176,7 @@ export default async function BarDetailPage({ params }: { params: Promise<{ slug
           {/* Sidebar */}
           <div className="details-sidebar" style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
             <div style={{ background: '#18181b', border: '1px solid #27272a', borderRadius: 20, padding: 24, position: 'relative' }}>
-              <h3 className="sidebar-title" style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 24 }}>Bar Details</h3>
+              <h3 className="sidebar-title details-section-title">Bar Details</h3>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                  {bar.address ? (
