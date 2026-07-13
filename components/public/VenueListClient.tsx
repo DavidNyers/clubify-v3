@@ -39,52 +39,76 @@ interface Props {
   tagClass?: string
 }
 
+// City priority order for fallback (no geo) — capitals first
+const CITY_ORDER: Record<string, number> = { 'Wien': 0, 'Graz': 1, 'Salzburg': 2 }
+
+function sortVenues(withDist: (Venue & { distKm?: number })[]) {
+  withDist.sort((a, b) => {
+    const distA = a.distKm ?? 999
+    const distB = b.distKm ?? 999
+    const aLocal = distA < 50
+    const bLocal = distB < 50
+    if (aLocal && !bLocal) return -1
+    if (!aLocal && bLocal) return 1
+    if (aLocal && bLocal) {
+      if (a.featured && !b.featured) return -1
+      if (!a.featured && b.featured) return 1
+      return distA - distB
+    }
+    return distA - distB
+  })
+}
+
+function fallbackSort(venues: Venue[]) {
+  return [...venues].sort((a, b) => {
+    const cityA = CITY_ORDER[a.city] ?? 99
+    const cityB = CITY_ORDER[b.city] ?? 99
+    if (cityA !== cityB) return cityA - cityB
+    if (a.featured && !b.featured) return -1
+    if (!a.featured && b.featured) return 1
+    return (b.avg_rating ?? 0) - (a.avg_rating ?? 0)
+  })
+}
+
 export default function VenueListClient({ venues, type, tagKey = 'music_genres', tagClass = 'clubs-tag' }: Props) {
-  const [sorted, setSorted] = useState<(Venue & { distKm?: number })[]>(venues)
+  const [sorted, setSorted] = useState<(Venue & { distKm?: number })[]>(() => fallbackSort(venues))
   const [locating, setLocating] = useState(false)
   const [located, setLocated] = useState(false)
 
   useEffect(() => {
-    if (!navigator.geolocation) return
-    setLocating(true)
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const { latitude, longitude } = pos.coords
+    // 1. Try cached location for instant sort
+    try {
+      const cached = localStorage.getItem('clubify-geo')
+      if (cached) {
+        const { lat, lng } = JSON.parse(cached)
         const withDist = venues.map(v => ({
           ...v,
-          distKm: v.lat && v.lng ? haversineKm(latitude, longitude, v.lat, v.lng) : Infinity
+          distKm: v.lat && v.lng ? haversineKm(lat, lng, v.lat, v.lng) : Infinity
         }))
+        sortVenues(withDist)
+        setSorted(withDist)
+        setLocated(true)
+      }
+    } catch { /* ignore */ }
 
-        // LOCAL = within 50km (Wien to Graz is ~170km, so this cleanly separates cities)
-        // 1. Local featured
-        // 2. Local non-featured  (both sorted by distance)
-        // 3. Remote venues       (sorted by distance, at the very end)
-        withDist.sort((a, b) => {
-          const distA = a.distKm ?? 999
-          const distB = b.distKm ?? 999
-          const aLocal = distA < 50
-          const bLocal = distB < 50
-
-          // One is local, other is remote → local always wins
-          if (aLocal && !bLocal) return -1
-          if (!aLocal && bLocal) return 1
-
-          // Both local → featured first, then by distance
-          if (aLocal && bLocal) {
-            if (a.featured && !b.featured) return -1
-            if (!a.featured && b.featured) return 1
-            return distA - distB
-          }
-
-          // Both remote → purely by distance
-          return distA - distB
-        })
-
+    // 2. Get fresh position (fast: 5s timeout, accept 10min old cache)
+    if (!navigator.geolocation) return
+    if (!located) setLocating(true)
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const { latitude: lat, longitude: lng } = pos.coords
+        try { localStorage.setItem('clubify-geo', JSON.stringify({ lat, lng })) } catch { /* ignore */ }
+        const withDist = venues.map(v => ({
+          ...v,
+          distKm: v.lat && v.lng ? haversineKm(lat, lng, v.lat, v.lng) : Infinity
+        }))
+        sortVenues(withDist)
         setSorted(withDist)
         setLocating(false)
         setLocated(true)
       },
-      () => setLocating(false)
+      () => setLocating(false),
+      { maximumAge: 600_000, timeout: 5_000, enableHighAccuracy: false }
     )
   }, [])
 
