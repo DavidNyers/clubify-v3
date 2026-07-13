@@ -253,3 +253,43 @@ INSERT INTO public.reviews (user_id, event_id, rating, text, status) VALUES
   ('00000000-0000-0000-0000-000000000006', '30000000-0000-0000-0000-000000000004', 5, 'Flex Opening Night war unfassbar. Surgeon live war das Highlight des Jahres!', 'visible'),
   ('00000000-0000-0000-0000-000000000006', '30000000-0000-0000-0000-000000000008', 5, 'Arena Open Air – Charlotte de Witte war göttlich. 5 Stunden nonstop Tanzen.', 'visible')
 ON CONFLICT DO NOTHING;
+
+
+-- ============================================
+-- CLUBIFY V3 — AUTO GENERATED IMAGE UPDATES
+-- ============================================
+UPDATE public.clubs SET images = ARRAY['https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=800'] WHERE id = '10000000-0000-0000-0000-000000000004';
+UPDATE public.clubs SET images = ARRAY['https://images.unsplash.com/photo-1545128485-c400e7702796?auto=format&fit=crop&q=80&w=800'] WHERE id = '10000000-0000-0000-0000-000000000005';
+UPDATE public.clubs SET images = ARRAY['https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=800'] WHERE id = '10000000-0000-0000-0000-000000000006';
+UPDATE public.clubs SET images = ARRAY['https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&q=80&w=800'] WHERE id = '10000000-0000-0000-0000-000000000007';
+UPDATE public.clubs SET images = ARRAY['https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&q=80&w=800'] WHERE id = '10000000-0000-0000-0000-000000000008';
+UPDATE public.clubs SET images = ARRAY['https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?auto=format&fit=crop&q=80&w=800'] WHERE id = '10000000-0000-0000-0000-000000000009';
+UPDATE public.clubs SET images = ARRAY['https://images.unsplash.com/photo-1489641499593-b54144a3b01a?auto=format&fit=crop&q=80&w=800'] WHERE id = '10000000-0000-0000-0000-000000000010';
+UPDATE public.clubs SET images = ARRAY['https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&q=80&w=800'] WHERE id = '10000000-0000-0000-0000-000000000011';
+UPDATE public.clubs SET images = ARRAY['https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&q=80&w=800'] WHERE id = '10000000-0000-0000-0000-000000000012';
+UPDATE public.clubs SET images = ARRAY['https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=800'] WHERE id = '10000000-0000-0000-0000-000000000013';
+UPDATE public.clubs SET images = ARRAY['https://images.unsplash.com/photo-1545128485-c400e7702796?auto=format&fit=crop&q=80&w=800'] WHERE id = '10000000-0000-0000-0000-000000000001';
+UPDATE public.clubs SET images = ARRAY['https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=800'] WHERE id = '10000000-0000-0000-0000-000000000002';
+UPDATE public.clubs SET images = ARRAY['https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&q=80&w=800'] WHERE id = '10000000-0000-0000-0000-000000000003';
+UPDATE public.bars SET images = ARRAY['https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=800'] WHERE id = '20000000-0000-0000-0000-000000000003';
+UPDATE public.bars SET images = ARRAY['https://images.unsplash.com/photo-1572116469696-31de0f17cc34?auto=format&fit=crop&q=80&w=800'] WHERE id = '20000000-0000-0000-0000-000000000004';
+UPDATE public.bars SET images = ARRAY['https://images.unsplash.com/photo-1575444758702-4a6b9222336e?auto=format&fit=crop&q=80&w=800'] WHERE id = '20000000-0000-0000-0000-000000000005';
+UPDATE public.bars SET images = ARRAY['https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&q=80&w=800'] WHERE id = '20000000-0000-0000-0000-000000000006';
+UPDATE public.bars SET images = ARRAY['https://images.unsplash.com/photo-1497644083578-611b798c60f3?auto=format&fit=crop&q=80&w=800'] WHERE id = '20000000-0000-0000-0000-000000000007';
+UPDATE public.bars SET images = ARRAY['https://images.unsplash.com/photo-1560624052-449f5ddf0c31?auto=format&fit=crop&q=80&w=800'] WHERE id = '20000000-0000-0000-0000-000000000008';
+UPDATE public.bars SET images = ARRAY['https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&q=80&w=800'] WHERE id = '20000000-0000-0000-0000-000000000009';
+UPDATE public.bars SET images = ARRAY['https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&q=80&w=800'] WHERE id = '20000000-0000-0000-0000-000000000010';
+UPDATE public.bars SET images = ARRAY['https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&q=80&w=800'] WHERE id = '20000000-0000-0000-0000-000000000011';
+UPDATE public.bars SET images = ARRAY['https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=800'] WHERE id = '20000000-0000-0000-0000-000000000012';
+UPDATE public.events SET images = ARRAY['https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=800'] WHERE id = '30000000-0000-0000-0000-000000000004';
+UPDATE public.events SET images = ARRAY['https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=800'] WHERE id = '30000000-0000-0000-0000-000000000005';
+UPDATE public.events SET images = ARRAY['https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&q=80&w=800'] WHERE id = '30000000-0000-0000-0000-000000000006';
+UPDATE public.events SET images = ARRAY['https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=800'] WHERE id = '30000000-0000-0000-0000-000000000007';
+UPDATE public.events SET images = ARRAY['https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&q=80&w=800'] WHERE id = '30000000-0000-0000-0000-000000000008';
+UPDATE public.events SET images = ARRAY['https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?auto=format&fit=crop&q=80&w=800'] WHERE id = '30000000-0000-0000-0000-000000000009';
+UPDATE public.events SET images = ARRAY['https://images.unsplash.com/photo-1489641499593-b54144a3b01a?auto=format&fit=crop&q=80&w=800'] WHERE id = '30000000-0000-0000-0000-000000000010';
+UPDATE public.events SET images = ARRAY['https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&q=80&w=800'] WHERE id = '30000000-0000-0000-0000-000000000011';
+UPDATE public.events SET images = ARRAY['https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&q=80&w=800'] WHERE id = '30000000-0000-0000-0000-000000000012';
+UPDATE public.events SET images = ARRAY['https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=800'] WHERE id = '30000000-0000-0000-0000-000000000013';
+UPDATE public.events SET images = ARRAY['https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=800'] WHERE id = '30000000-0000-0000-0000-000000000014';
+UPDATE public.events SET images = ARRAY['https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&q=80&w=800'] WHERE id = '30000000-0000-0000-0000-000000000015';
