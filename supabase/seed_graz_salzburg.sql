@@ -22,7 +22,7 @@ INSERT INTO public.clubs (id, owner_id, name, slug, description, address, city, 
    ARRAY['Techno', 'Minimal', 'Dark Techno'], 'published', true),
 
   ('10000000-0000-0000-0000-000000000022', '00000000-0000-0000-0000-000000000002',
-   'Haus der Architektur (HDA) Club Night', 'hda-club-night-graz',
+   'HDA Club Night', 'hda-club-night-graz',
    'Kulturelles Zentrum das regelmäßig zu Club Nights öffnet. Architektur trifft Musik.',
    'Mariahilferstraße 2', 'Graz', 47.0707, 15.4402, 350, 3,
    ARRAY['Electronic', 'Ambient', 'Experimental'], 'published', false),
