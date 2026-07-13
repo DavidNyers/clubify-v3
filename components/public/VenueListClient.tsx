@@ -235,8 +235,8 @@ export default function VenueListClient({ venues, type, tagKey = 'music_genres',
 
                   {tags && tags.length > 0 && (
                     <div className="listing-card-tags">
-                      {tags.slice(0, 2).map((tag: string) => (
-                        <span key={tag} className={`listing-card-tag ${tagClass}`}>{tag}</span>
+                      {tags.slice(0, 2).map((tag: string, idx: number) => (
+                        <span key={`${tag}-${idx}`} className={`listing-card-tag ${tagClass}`}>{tag}</span>
                       ))}
                     </div>
                   )}

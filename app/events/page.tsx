@@ -131,8 +131,8 @@ export default async function EventsRootPage({ searchParams }: { searchParams: P
 
                         {/* Genres */}
                         <div className="listing-card-tags">
-                          {event.genre?.slice(0, 2).map((g: string) => (
-                            <span key={g} className="listing-card-tag events-tag">
+                          {event.genre?.slice(0, 2).map((g: string, idx: number) => (
+                            <span key={`${g}-${idx}`} className="listing-card-tag events-tag">
                               {g}
                             </span>
                           ))}
