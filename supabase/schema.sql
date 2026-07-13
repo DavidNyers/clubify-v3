@@ -479,3 +479,57 @@ BEGIN
   RETURN (SELECT role::TEXT FROM public.users WHERE id = auth.uid());
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- ============================================
+-- TRIGGER: auto-calculate average ratings & review counts on reviews CRUD
+-- ============================================
+
+CREATE OR REPLACE FUNCTION public.update_venue_rating_cache()
+RETURNS TRIGGER AS $$
+DECLARE
+  v_club_id UUID;
+  v_bar_id UUID;
+  v_event_id UUID;
+BEGIN
+  IF TG_OP = 'DELETE' THEN
+    v_club_id := OLD.club_id;
+    v_bar_id := OLD.bar_id;
+    v_event_id := OLD.event_id;
+  ELSE
+    v_club_id := NEW.club_id;
+    v_bar_id := NEW.bar_id;
+    v_event_id := NEW.event_id;
+  END IF;
+
+  IF v_club_id IS NOT NULL THEN
+    UPDATE public.clubs
+    SET 
+      avg_rating = COALESCE((SELECT ROUND(AVG(rating), 2) FROM public.reviews WHERE club_id = v_club_id AND status = 'visible'), 0),
+      review_count = COALESCE((SELECT COUNT(*) FROM public.reviews WHERE club_id = v_club_id AND status = 'visible'), 0)
+    WHERE id = v_club_id;
+  END IF;
+
+  IF v_bar_id IS NOT NULL THEN
+    UPDATE public.bars
+    SET 
+      avg_rating = COALESCE((SELECT ROUND(AVG(rating), 2) FROM public.reviews WHERE bar_id = v_bar_id AND status = 'visible'), 0),
+      review_count = COALESCE((SELECT COUNT(*) FROM public.reviews WHERE bar_id = v_bar_id AND status = 'visible'), 0)
+    WHERE id = v_bar_id;
+  END IF;
+
+  IF v_event_id IS NOT NULL THEN
+    UPDATE public.events
+    SET 
+      avg_rating = COALESCE((SELECT ROUND(AVG(rating), 2) FROM public.reviews WHERE event_id = v_event_id AND status = 'visible'), 0),
+      review_count = COALESCE((SELECT COUNT(*) FROM public.reviews WHERE event_id = v_event_id AND status = 'visible'), 0)
+    WHERE id = v_event_id;
+  END IF;
+
+  RETURN NULL;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE TRIGGER trg_reviews_rating_cache
+AFTER INSERT OR UPDATE OR DELETE ON public.reviews
+FOR EACH ROW EXECUTE FUNCTION public.update_venue_rating_cache();
+
