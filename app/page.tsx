@@ -170,6 +170,7 @@ export default async function HomePage() {
           favEventCount={favEventCount}
           preferredCity={preferredCity}
           nextEventLabel={nextEventLabel}
+          nextEventSlug={nextEvent?.slug || undefined}
         />
         <MarqueeSection />
         <VenueShowcase venues={showcase} />
@@ -196,6 +197,7 @@ interface HeroSectionProps {
   favEventCount: number
   preferredCity: string
   nextEventLabel: string
+  nextEventSlug?: string
 }
 
 function HeroSection({
@@ -208,6 +210,7 @@ function HeroSection({
   favEventCount,
   preferredCity,
   nextEventLabel,
+  nextEventSlug,
 }: HeroSectionProps) {
   return (
     <section className="hero-v2">
@@ -287,6 +290,7 @@ function HeroSection({
                 favCount={favCount}
                 favEventCount={favEventCount}
                 nextEventLabel={nextEventLabel}
+                nextEventSlug={nextEventSlug}
               />
             </div>
           </div>
