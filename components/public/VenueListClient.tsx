@@ -225,16 +225,11 @@ export default function VenueListClient({ venues, type, tagKey = 'music_genres',
                     </div>
                   )}
 
-                  {((tags && tags.length > 0) || venue.dress_code) && (
+                  {tags && tags.length > 0 && (
                     <div className="listing-card-tags">
-                      {tags && tags.slice(0, 2).map((tag: string, idx: number) => (
+                      {tags.slice(0, 2).map((tag: string, idx: number) => (
                         <span key={`${tag}-${idx}`} className={`listing-card-tag ${tagClass}`}>{tag}</span>
                       ))}
-                      {venue.dress_code && (
-                        <span className="listing-card-tag" style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.65)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                          👔 {venue.dress_code}
-                        </span>
-                      )}
                     </div>
                   )}
                 </div>
