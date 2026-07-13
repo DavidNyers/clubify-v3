@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { MapPin, Star, Navigation } from 'lucide-react'
+import { MapPin, Navigation } from 'lucide-react'
 
 const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?auto=format&fit=crop&q=80&w=800'
 
@@ -169,45 +169,54 @@ export default function VenueListClient({ venues, type, tagKey = 'music_genres',
                         ? '0 4px 15px rgba(236,72,153,0.4)'
                         : '0 4px 15px rgba(59,130,246,0.4)'
                     }}>
-                      FEATURED
-                    </div>
-                  )}
-                  {/* Distance badge */}
-                  {venue.distKm !== undefined && venue.distKm < 999 && (
-                    <div style={{
-                      position: 'absolute', bottom: 8, right: 8,
-                      background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(8px)',
-                      borderRadius: 8, padding: '3px 8px',
-                      fontSize: '0.7rem', fontWeight: 700, color: '#a1a1aa',
-                      display: 'flex', alignItems: 'center', gap: 4
-                    }}>
-                      <Navigation size={10} />
-                      {venue.distKm < 1
-                        ? `${Math.round(venue.distKm * 1000)}m`
-                        : `${venue.distKm.toFixed(1)} km`}
+                      TOP
                     </div>
                   )}
                 </div>
 
-                {/* Content */}
+                {/* Content — Booking.com style */}
                 <div className="listing-card-content">
-                  <div className="listing-card-title-row">
-                    <h3 className="listing-card-title">{venue.name}</h3>
-                    {(venue.avg_rating ?? 0) > 0 && (
-                      <div className="listing-card-rating">
-                        <Star size={10} fill="#f59e0b" style={{ display: 'inline', marginTop: -2 }} />
-                        {' '}{venue.avg_rating}
+
+                  {/* Name */}
+                  <h3 className="listing-card-title">{venue.name}</h3>
+
+                  {/* Rating row */}
+                  {(venue.avg_rating ?? 0) > 0 && (
+                    <div className="lc-rating-row">
+                      <div className="lc-score-badge" style={{
+                        background: type === 'clubs'
+                          ? 'linear-gradient(135deg, #8b5cf6, #7c3aed)'
+                          : 'linear-gradient(135deg, #3b82f6, #1d4ed8)'
+                      }}>
+                        {venue.avg_rating?.toFixed(1)}
                       </div>
+                      <span className="lc-score-label">
+                        {(venue.avg_rating ?? 0) >= 4.5 ? 'Ausgezeichnet' :
+                         (venue.avg_rating ?? 0) >= 4.0 ? 'Sehr gut' :
+                         (venue.avg_rating ?? 0) >= 3.5 ? 'Gut' : 'Bewertet'}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Location + price + distance */}
+                  <div className="lc-info-row">
+                    <MapPin size={11} style={{ flexShrink: 0, color: '#71717a' }} />
+                    <span className="lc-city">{venue.city}</span>
+                    {venue.price_range && <span className="lc-dot">·</span>}
+                    {venue.price_range && <span className="lc-price">{'€'.repeat(venue.price_range)}</span>}
+                    {venue.distKm !== undefined && venue.distKm < 999 && (
+                      <>
+                        <span className="lc-dot">·</span>
+                        <span className="lc-dist">
+                          {venue.distKm < 1
+                            ? `${Math.round(venue.distKm * 1000)}m`
+                            : `${venue.distKm.toFixed(1)} km`}
+                        </span>
+                      </>
                     )}
                   </div>
 
-                  <div className="listing-card-info-row">
-                    <MapPin size={12} style={{ flexShrink: 0 }} />
-                    <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{venue.city}</span>
-                    {venue.price_range && <span style={{ color: '#52525b', margin: '0 2px' }}>•</span>}
-                    {venue.price_range && <span style={{ color: '#10b981', fontWeight: 800 }}>{'€'.repeat(venue.price_range)}</span>}
-                  </div>
-
+                  {/* Genre tags */}
                   {tags && tags.length > 0 && (
                     <div className="listing-card-tags">
                       {tags.slice(0, 2).map((tag: string) => (
