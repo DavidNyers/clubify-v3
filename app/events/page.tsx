@@ -114,6 +114,12 @@ export default async function EventsRootPage({ searchParams }: { searchParams: P
                       <div className="listing-card-content">
                         <div className="listing-card-title-row">
                           <h3 className="listing-card-title">{event.name}</h3>
+                          <div className="listing-card-rating" style={{ 
+                            color: event.ticket_price > 0 ? '#10b981' : '#3b82f6', 
+                            background: event.ticket_price > 0 ? 'rgba(16, 185, 129, 0.06)' : 'rgba(59, 130, 246, 0.06)'
+                          }}>
+                            {event.ticket_price > 0 ? `${Math.round(event.ticket_price)} ${event.currency}` : 'Free'}
+                          </div>
                         </div>
 
                         <div className="listing-card-info-row">
@@ -125,17 +131,11 @@ export default async function EventsRootPage({ searchParams }: { searchParams: P
 
                         {/* Genres */}
                         <div className="listing-card-tags">
-                          {event.genre?.slice(0, 1).map((g: string) => (
+                          {event.genre?.slice(0, 2).map((g: string) => (
                             <span key={g} className="listing-card-tag events-tag">
                               {g}
                             </span>
                           ))}
-                        </div>
-
-                        {/* Ticket Info */}
-                        <div className="listing-card-ticket-row">
-                          <Ticket size={12} style={{ color: '#f59e0b', flexShrink: 0 }} />
-                          <span>{event.ticket_price > 0 ? `${event.ticket_price} ${event.currency}` : 'Free Entry'}</span>
                         </div>
                       </div>
 
