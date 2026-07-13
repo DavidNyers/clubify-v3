@@ -54,20 +54,26 @@ export default function VenueListClient({ venues, type, tagKey = 'music_genres',
           ...v,
           distKm: v.lat && v.lng ? haversineKm(latitude, longitude, v.lat, v.lng) : Infinity
         }))
+
+        // Sort purely by distance — Featured is only a visual badge.
+        // A featured club in Graz should NEVER appear above a non-featured club in Wien
+        // for a user standing in Wien. Within the same city (< 30km), featured comes first.
         withDist.sort((a, b) => {
-          // Featured first within same distance bucket (±5km)
-          const aBucket = Math.floor((a.distKm ?? 999) / 5)
-          const bBucket = Math.floor((b.distKm ?? 999) / 5)
-          if (aBucket !== bBucket) return aBucket - bBucket
-          if (a.featured && !b.featured) return -1
-          if (!a.featured && b.featured) return 1
-          return (a.distKm ?? 999) - (b.distKm ?? 999)
+          const distA = a.distKm ?? 999
+          const distB = b.distKm ?? 999
+          const sameCity = Math.abs(distA - distB) < 30
+          if (sameCity) {
+            if (a.featured && !b.featured) return -1
+            if (!a.featured && b.featured) return 1
+          }
+          return distA - distB
         })
+
         setSorted(withDist)
         setLocating(false)
         setLocated(true)
       },
-      () => setLocating(false)
+      () => setLocating(false) // permission denied → keep server order
     )
   }, [])
 
