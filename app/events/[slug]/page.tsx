@@ -8,6 +8,7 @@ import FavoriteButton from '@/components/public/FavoriteButton'
 import ReviewSection from '@/components/public/ReviewSection'
 import { isFavorited } from '@/lib/actions/user/FavoriteActions'
 import { getReviewStats } from '@/lib/actions/user/ReviewActions'
+import BackButton from '@/components/public/BackButton'
 
 // Dummy Stockbild für Events
 const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1540039155732-d68f2c5cb13b?auto=format&fit=crop&q=80&w=2000'
@@ -66,14 +67,12 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
           <div style={{ position: 'relative', maxWidth: 1200, margin: '0 auto', height: '100%', padding: '0 5%', zIndex: 10 }}>
             {/* Back Button & Favorite */}
             <div style={{ position: 'absolute', top: 90, left: '5%', display: 'flex', gap: 12 }}>
-              <Link href="/events" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#e2e8f0', textDecoration: 'none', background: 'rgba(255,255,255,0.1)', padding: '8px 16px', borderRadius: 20, backdropFilter: 'blur(10px)', fontSize: '0.85rem', fontWeight: 600 }}>
-                <ChevronLeft size={16} /> Alle Events
-              </Link>
+              <BackButton fallbackPath="/events" />
               <FavoriteButton targetId={event.id} type="event" initialIsFavorited={favorited} />
             </div>
 
-            {/* Bottom Info & Ticket Button */}
-            <div style={{ position: 'absolute', bottom: 40, left: '5%', right: '5%', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 24 }}>
+            {/* Bottom Info */}
+            <div className="details-hero-content" style={{ position: 'absolute', bottom: 40, left: '5%', right: '5%' }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
                   <div style={{ background: '#f59e0b', color: 'black', padding: '6px 12px', borderRadius: 8, fontWeight: 800, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -86,46 +85,36 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                 </h1>
                 
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', alignItems: 'center', fontSize: '0.95rem' }}>
-                <Link href="#reviews" style={{ textDecoration: 'none' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#f59e0b', fontWeight: 700, background: 'rgba(245, 158, 11, 0.1)', padding: '6px 12px', borderRadius: 8, cursor: 'pointer', transition: 'all 0.2s' }} className="hover-bg-amber">
-                    <Star size={16} fill="#f59e0b" />
-                    {avgRating > 0 ? avgRating : 'Neu'}
-                    <span style={{ color: '#a1a1aa', fontWeight: 400, marginLeft: 4 }}>
-                      ({reviewCount} {reviewCount === 1 ? 'Review' : 'Reviews'})
-                    </span>
-                  </div>
-                </Link>
-                
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#e2e8f0' }}>
-                  {isVenueApproved && location ? (
-                    <Link href={`/${venueType}/${location.name.toLowerCase().replace(/ /g, '-')}`} style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#f8fafc', textDecoration: 'none' }} className="hover-text-violet">
-                      <MapPin size={18} style={{ color: '#f59e0b' }} />
-                      <span style={{ fontWeight: 700 }}>{location.name}</span>, {location.city}
-                    </Link>
-                  ) : (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#a1a1aa' }}>
-                      <MapPin size={18} style={{ color: '#71717a' }} />
-                      <span style={{ fontWeight: 700 }}>Location TBA</span> (Wird vom Club bestätigt)
+                  <Link href="#reviews" style={{ textDecoration: 'none' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#f59e0b', fontWeight: 700, background: 'rgba(245, 158, 11, 0.1)', padding: '6px 12px', borderRadius: 8, cursor: 'pointer', transition: 'all 0.2s' }} className="hover-bg-amber">
+                      <Star size={16} fill="#f59e0b" />
+                      {avgRating > 0 ? avgRating : 'Neu'}
+                      <span style={{ color: '#a1a1aa', fontWeight: 400, marginLeft: 4 }}>
+                        ({reviewCount} {reviewCount === 1 ? 'Review' : 'Reviews'})
+                      </span>
                     </div>
-                  )}
+                  </Link>
+                  
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#e2e8f0' }}>
+                    {isVenueApproved && location ? (
+                      <Link href={`/${venueType}/${location.name.toLowerCase().replace(/ /g, '-')}`} style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#f8fafc', textDecoration: 'none' }} className="hover-text-violet">
+                        <MapPin size={18} style={{ color: '#f59e0b' }} />
+                        <span style={{ fontWeight: 700 }}>{location.name}</span>, {location.city}
+                      </Link>
+                    ) : (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#a1a1aa' }}>
+                        <MapPin size={18} style={{ color: '#71717a' }} />
+                        <span style={{ fontWeight: 700 }}>Location TBA</span> (Wird vom Club bestätigt)
+                      </div>
+                    )}
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <Clock size={16} style={{ color: '#a1a1aa' }} />
-                    Start: {timeString} Uhr
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <Clock size={16} style={{ color: '#a1a1aa' }} />
+                      Start: {timeString} Uhr
+                    </div>
                   </div>
-                </div>
                 </div>
               </div>
-
-              <button className="hover-translate" style={{ 
-                background: 'linear-gradient(135deg, #f59e0b, #fbbf24)', color: 'black', 
-                border: 'none', padding: '16px 32px', borderRadius: 16, fontSize: '1.2rem', 
-                fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 12,
-                boxShadow: '0 10px 25px rgba(245, 158, 11, 0.3)'
-              }}>
-                <Ticket size={24} /> 
-                {event.ticket_price > 0 ? `Tickets - ${event.ticket_price} ${event.currency}` : 'Kostenloses Ticket sichern'}
-              </button>
             </div>
           </div>
         </div>
@@ -134,9 +123,9 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
         <div className="details-grid" style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 5%' }}>
           
           {/* Main Info */}
-          <div>
-            <div style={{ marginBottom: 40 }}>
-              <h2 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: 16, color: '#fff' }}>Über das Event</h2>
+          <div className="details-main">
+            <div className="details-section">
+              <h2 className="details-section-title">Über das Event</h2>
               <p style={{ color: '#a1a1aa', lineHeight: 1.7, fontSize: '1.05rem', whiteSpace: 'pre-wrap' }}>
                 {event.description || 'Der Organizer hat noch keine Event-Beschreibung hinzugefügt, aber die Lineups sprechen für sich!'}
               </p>
@@ -144,8 +133,8 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
 
             {/* Lineup */}
             {event.lineup && event.lineup.length > 0 && (
-              <div style={{ marginBottom: 40 }}>
-                <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div className="details-section">
+                <h3 className="details-section-title">
                   <Users size={20} style={{ color: '#f59e0b' }} /> Line-Up
                 </h3>
                 <div style={{ background: '#18181b', border: '1px solid #27272a', borderRadius: 16, overflow: 'hidden' }}>
@@ -164,8 +153,8 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
 
             {/* Music Genres */}
             {event.genre && event.genre.length > 0 && (
-              <div style={{ marginBottom: 40 }}>
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div className="details-section">
+                <h3 className="details-section-title">
                   <Music size={18} style={{ color: '#3b82f6' }} /> Genres
                 </h3>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
@@ -181,9 +170,9 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
           </div>
 
           {/* Sidebar */}
-          <div>
-            <div style={{ background: '#18181b', border: '1px solid #27272a', borderRadius: 20, padding: 24, position: 'sticky', top: 100 }}>
-              <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 24 }}>Event Details</h3>
+          <div className="details-sidebar" style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <div style={{ background: '#18181b', border: '1px solid #27272a', borderRadius: 20, padding: 24, position: 'relative' }}>
+              <h3 className="sidebar-title details-section-title">Event Details</h3>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                 
@@ -232,6 +221,19 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                        <Users size={16} style={{ color: '#a1a1aa' }} /> Kapazität: {event.max_guests} Gäste
                      </div>
                   )}
+                </div>
+
+                <div className="sidebar-booking-container" style={{ marginTop: 20 }}>
+                  <button className="sidebar-booking-btn" style={{ 
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, 
+                    width: '100%', padding: '16px', borderRadius: 16, border: 'none', 
+                    background: 'linear-gradient(135deg, #f59e0b, #fbbf24)', color: 'black', 
+                    fontWeight: 900, cursor: 'pointer',
+                    boxShadow: '0 10px 20px -5px rgba(245, 158, 11, 0.3)'
+                  }}>
+                    <Ticket size={18} /> 
+                    {event.ticket_price > 0 ? `Tickets - ${event.ticket_price} ${event.currency}` : 'Kostenloses Ticket sichern'}
+                  </button>
                 </div>
                 
               </div>
