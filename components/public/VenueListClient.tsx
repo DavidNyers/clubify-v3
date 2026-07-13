@@ -55,17 +55,28 @@ export default function VenueListClient({ venues, type, tagKey = 'music_genres',
           distKm: v.lat && v.lng ? haversineKm(latitude, longitude, v.lat, v.lng) : Infinity
         }))
 
-        // Sort purely by distance — Featured is only a visual badge.
-        // A featured club in Graz should NEVER appear above a non-featured club in Wien
-        // for a user standing in Wien. Within the same city (< 30km), featured comes first.
+        // LOCAL = within 50km (Wien to Graz is ~170km, so this cleanly separates cities)
+        // 1. Local featured
+        // 2. Local non-featured  (both sorted by distance)
+        // 3. Remote venues       (sorted by distance, at the very end)
         withDist.sort((a, b) => {
           const distA = a.distKm ?? 999
           const distB = b.distKm ?? 999
-          const sameCity = Math.abs(distA - distB) < 30
-          if (sameCity) {
+          const aLocal = distA < 50
+          const bLocal = distB < 50
+
+          // One is local, other is remote → local always wins
+          if (aLocal && !bLocal) return -1
+          if (!aLocal && bLocal) return 1
+
+          // Both local → featured first, then by distance
+          if (aLocal && bLocal) {
             if (a.featured && !b.featured) return -1
             if (!a.featured && b.featured) return 1
+            return distA - distB
           }
+
+          // Both remote → purely by distance
           return distA - distB
         })
 
@@ -73,7 +84,7 @@ export default function VenueListClient({ venues, type, tagKey = 'music_genres',
         setLocating(false)
         setLocated(true)
       },
-      () => setLocating(false) // permission denied → keep server order
+      () => setLocating(false)
     )
   }, [])
 
@@ -92,17 +103,33 @@ export default function VenueListClient({ venues, type, tagKey = 'music_genres',
       )}
 
       <div className="listings-grid">
-        {sorted.map(venue => {
+        {sorted.map((venue, idx) => {
           const coverImage = venue.images && venue.images.length > 0 ? venue.images[0] : FALLBACK_IMAGE
           const tags = tagKey === 'music_genres' ? venue.music_genres : []
           const hoverClass = type === 'clubs' ? 'hover-border-violet' : 'hover-border-blue'
+          const isLocal = (venue.distKm ?? 999) < 50
+          const prevIsLocal = idx > 0 ? (sorted[idx - 1].distKm ?? 999) < 50 : true
+          // Show "Weitere Städte" divider at the boundary between local and remote
+          const showDivider = located && !isLocal && prevIsLocal
 
           return (
-            <Link
-              key={venue.id}
-              href={`/${type}/${venue.slug}`}
-              className="listing-card-wrap"
-            >
+            <div key={venue.id}>
+              {showDivider && (
+                <div style={{
+                  display: 'flex', alignItems: 'center', gap: 12,
+                  margin: '24px 0 16px', color: '#52525b', fontSize: '0.78rem', fontWeight: 700,
+                  textTransform: 'uppercase', letterSpacing: '0.08em'
+                }}>
+                  <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.06)' }} />
+                  Weitere Städte
+                  <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.06)' }} />
+                </div>
+              )}
+              <Link
+                href={`/${type}/${venue.slug}`}
+                className="listing-card-wrap"
+                style={{ display: 'block', marginBottom: 0 }}
+              >
               <div className={`listing-card hover-translate ${hoverClass}`}>
 
                 {/* Image */}
@@ -168,6 +195,7 @@ export default function VenueListClient({ venues, type, tagKey = 'music_genres',
 
               </div>
             </Link>
+            </div>
           )
         })}
       </div>
