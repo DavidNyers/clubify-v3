@@ -56,7 +56,7 @@ export default async function BarDetailPage({ params }: { params: Promise<{ slug
       
       <main style={{ minHeight: '100vh', paddingBottom: 80, background: '#09090b', color: '#f1f5f9' }}>
         {/* HERO SECTION */}
-        <div style={{ position: 'relative', width: '100%', height: '55vh', overflow: 'hidden' }}>
+        <div className="details-hero" style={{ position: 'relative', width: '100%', height: '55vh', overflow: 'hidden' }}>
           <Image 
             src={heroImage} 
             alt={bar.name} 
@@ -176,14 +176,15 @@ export default async function BarDetailPage({ params }: { params: Promise<{ slug
           {/* Sidebar */}
           <div className="details-sidebar" style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
             <div style={{ background: '#18181b', border: '1px solid #27272a', borderRadius: 20, padding: 24, position: 'relative' }}>
-              <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 24 }}>Bar Details</h3>
+              <h3 className="sidebar-title" style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 24 }}>Bar Details</h3>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-                {bar.address ? (
+                 {bar.address ? (
                   <a 
                     href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${bar.address}, ${bar.city}, ${bar.country || ''}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
+                    className="sidebar-info-item"
                     style={{ display: 'flex', gap: 12, alignItems: 'flex-start', textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
                   >
                     <div style={{ background: '#27272a', padding: 10, borderRadius: 10 }}><MapPin size={18} style={{ color: '#e2e8f0' }} /></div>
@@ -193,7 +194,7 @@ export default async function BarDetailPage({ params }: { params: Promise<{ slug
                     </div>
                   </a>
                 ) : (
-                  <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                  <div className="sidebar-info-item" style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
                     <div style={{ background: '#27272a', padding: 10, borderRadius: 10 }}><MapPin size={18} style={{ color: '#e2e8f0' }} /></div>
                     <div>
                       <div style={{ fontSize: '0.8rem', color: '#a1a1aa', marginBottom: 2 }}>Adresse</div>
@@ -203,7 +204,7 @@ export default async function BarDetailPage({ params }: { params: Promise<{ slug
                 )}
 
                 {bar.capacity && (
-                  <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                  <div className="sidebar-info-item" style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
                     <div style={{ background: '#27272a', padding: 10, borderRadius: 10 }}><Users size={18} style={{ color: '#e2e8f0' }} /></div>
                     <div>
                       <div style={{ fontSize: '0.8rem', color: '#a1a1aa', marginBottom: 2 }}>Kapazität</div>
@@ -235,7 +236,7 @@ export default async function BarDetailPage({ params }: { params: Promise<{ slug
 
                 <div style={{ height: 1, background: '#27272a', margin: '8px 0' }} />
                 
-                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 8 }}>
+                <div className="sidebar-social-row" style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 8 }}>
                   {bar.website && (
                     <a href={bar.website} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#e2e8f0', textDecoration: 'none', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', padding: '8px 14px', borderRadius: 12, fontSize: '0.82rem', fontWeight: 600, transition: 'all 0.2s' }} className="hover-bg-elevated">
                       <Globe size={14} style={{ color: '#3b82f6' }} /> Webseite

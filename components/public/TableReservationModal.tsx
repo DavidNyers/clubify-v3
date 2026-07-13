@@ -68,7 +68,7 @@ export default function TableReservationModal({ clubId, clubName, packages, user
 
   return (
     <>
-      <div onClick={() => setIsOpen(true)} style={{ width: '100%' }}>
+      <div onClick={() => setIsOpen(true)} className="sidebar-booking-container" style={{ width: '100%' }}>
         {trigger}
       </div>
 

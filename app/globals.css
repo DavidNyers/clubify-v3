@@ -446,8 +446,48 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 767px) {
+  .details-hero {
+    height: 40vh !important;
+  }
+
   .details-sidebar {
-    order: -1; /* Puts the booking card and club info at the top on mobile */
+    order: -1; /* Puts sidebar at the top on mobile */
+  }
+
+  .details-sidebar > div {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-title {
+    display: none !important;
+  }
+
+  .sidebar-booking-container {
+    order: -2 !important;
+    margin-bottom: 24px !important;
+    width: 100% !important;
+  }
+
+  .sidebar-booking-container button {
+    background: linear-gradient(135deg, #8b5cf6, #ec4899) !important;
+    color: white !important;
+    padding: 16px !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 30px rgba(139, 92, 246, 0.35) !important;
+    margin-top: 0 !important;
+  }
+
+  .sidebar-info-item {
+    order: 0 !important;
+  }
+
+  .sidebar-social-row {
+    order: 1 !important;
+    margin-top: 12px !important;
   }
 }
 

@@ -61,7 +61,7 @@ export default async function ClubDetailPage({ params }: { params: Promise<{ slu
       
       <main style={{ minHeight: '100vh', paddingBottom: 80, background: '#09090b', color: '#f1f5f9' }}>
         {/* HERO SECTION */}
-        <div style={{ position: 'relative', width: '100%', height: '55vh', overflow: 'hidden' }}>
+        <div className="details-hero" style={{ position: 'relative', width: '100%', height: '55vh', overflow: 'hidden' }}>
           <Image 
             src={heroImage} 
             alt={club.name} 
@@ -192,6 +192,7 @@ export default async function ClubDetailPage({ params }: { params: Promise<{ slu
                     href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${club.address}, ${club.city}, ${club.country || ''}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
+                    className="sidebar-info-item"
                     style={{ display: 'flex', gap: 14, alignItems: 'flex-start', textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
                   >
                     <div style={{ background: '#27272a', padding: 10, borderRadius: 12 }}><MapPin size={18} style={{ color: '#a78bfa' }} /></div>
@@ -202,7 +203,7 @@ export default async function ClubDetailPage({ params }: { params: Promise<{ slu
                     </div>
                   </a>
                 ) : (
-                  <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                  <div className="sidebar-info-item" style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
                     <div style={{ background: '#27272a', padding: 10, borderRadius: 12 }}><MapPin size={18} style={{ color: '#a78bfa' }} /></div>
                     <div>
                       <div style={{ fontSize: '0.8rem', color: '#71717a', marginBottom: 2 }}>Adresse</div>
@@ -211,7 +212,7 @@ export default async function ClubDetailPage({ params }: { params: Promise<{ slu
                   </div>
                 )}
 
-                <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
+                <div className="sidebar-info-item" style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
                   <div style={{ background: '#27272a', padding: 10, borderRadius: 12 }}><Clock size={18} style={{ color: '#fb923c' }} /></div>
                   <div>
                     <div style={{ fontSize: '0.8rem', color: '#71717a', marginBottom: 2 }}>Öffnungszeiten</div>
@@ -221,7 +222,7 @@ export default async function ClubDetailPage({ params }: { params: Promise<{ slu
 
                 <div style={{ height: 1, background: '#27272a', margin: '8px 0' }} />
                 
-                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 8 }}>
+                <div className="sidebar-social-row" style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 8 }}>
                   {club.website && (
                     <a href={club.website} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#e2e8f0', textDecoration: 'none', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', padding: '8px 14px', borderRadius: 12, fontSize: '0.82rem', fontWeight: 600, transition: 'all 0.2s' }} className="hover-bg-elevated">
                       <Globe size={14} style={{ color: '#a78bfa' }} /> Webseite
