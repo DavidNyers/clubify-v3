@@ -305,6 +305,64 @@ export default function MapView({ clubs, bars, events }: MapViewProps) {
     }
   }, [])
 
+  // Query Parameter Handler (e.g. ?q=Graz or ?city=Graz)
+  useEffect(() => {
+    if (!mapLoaded || !mapRef.current) return
+
+    const params = new URLSearchParams(window.location.search)
+    const q = params.get('q') || params.get('city')
+    if (!q) return
+
+    const qLower = q.trim().toLowerCase()
+    setSearchQuery(q.trim())
+
+    const SEARCH_CITIES = [
+      { name: 'wien',     lat: 48.2082, lon: 16.3738 },
+      { name: 'vienna',   lat: 48.2082, lon: 16.3738 },
+      { name: 'berlin',   lat: 52.52,   lon: 13.405  },
+      { name: 'münchen',  lat: 48.1351, lon: 11.582  },
+      { name: 'munich',   lat: 48.1351, lon: 11.582  },
+      { name: 'graz',     lat: 47.0707, lon: 15.4395 },
+      { name: 'salzburg', lat: 47.8095, lon: 13.055  },
+      { name: 'linz',     lat: 48.3069, lon: 14.2858 },
+    ]
+
+    const matchedCity = SEARCH_CITIES.find(c => c.name === qLower)
+    if (matchedCity) {
+      setViewState(prev => ({
+        ...prev,
+        latitude: matchedCity.lat,
+        longitude: matchedCity.lon,
+        zoom: 12
+      }))
+      mapRef.current.flyTo({
+        center: [matchedCity.lon, matchedCity.lat],
+        zoom: 12,
+        essential: true,
+        duration: 800
+      })
+    } else {
+      const match = 
+        clubs.find(c => c.name.toLowerCase().includes(qLower) || c.address?.toLowerCase().includes(qLower)) ||
+        bars.find(b => b.name.toLowerCase().includes(qLower) || b.address?.toLowerCase().includes(qLower))
+      
+      if (match && match.lat && match.lng) {
+        setViewState(prev => ({
+          ...prev,
+          latitude: match.lat,
+          longitude: match.lng,
+          zoom: 14
+        }))
+        mapRef.current.flyTo({
+          center: [match.lng, match.lat],
+          zoom: 14,
+          essential: true,
+          duration: 800
+        })
+      }
+    }
+  }, [mapLoaded, clubs, bars])
+
   // Sync Source Data when filtered list changes
   useEffect(() => {
     if (mapRef.current && mapLoaded) {
