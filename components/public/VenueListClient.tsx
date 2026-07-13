@@ -216,28 +216,25 @@ export default function VenueListClient({ venues, type, tagKey = 'music_genres',
                     {venue.price_range && <span style={{ color: '#10b981', fontWeight: 800 }}>{'€'.repeat(venue.price_range)}</span>}
                   </div>
 
-                  {/* Metadata Row: Capacity and Dresscode */}
-                  {(venue.capacity || venue.dress_code) && (
+                  {/* Metadata Row: Capacity */}
+                  {venue.capacity && (
                     <div className="listing-card-info-row" style={{ color: 'rgba(255, 255, 255, 0.35)', fontSize: '0.72rem', marginTop: 1, gap: 8, display: 'flex', alignItems: 'center' }}>
-                      {venue.capacity && (
-                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3 }}>
-                          <Users size={11} style={{ opacity: 0.7 }} /> {venue.capacity.toLocaleString('de-AT')} Plätze
-                        </span>
-                      )}
-                      {venue.capacity && venue.dress_code && <span style={{ color: 'rgba(255, 255, 255, 0.15)' }}>•</span>}
-                      {venue.dress_code && (
-                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3 }}>
-                          👔 {venue.dress_code}
-                        </span>
-                      )}
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3 }}>
+                        <Users size={11} style={{ opacity: 0.7 }} /> {venue.capacity.toLocaleString('de-AT')} Plätze
+                      </span>
                     </div>
                   )}
 
-                  {tags && tags.length > 0 && (
+                  {((tags && tags.length > 0) || venue.dress_code) && (
                     <div className="listing-card-tags">
-                      {tags.slice(0, 2).map((tag: string, idx: number) => (
+                      {tags && tags.slice(0, 2).map((tag: string, idx: number) => (
                         <span key={`${tag}-${idx}`} className={`listing-card-tag ${tagClass}`}>{tag}</span>
                       ))}
+                      {venue.dress_code && (
+                        <span className="listing-card-tag" style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.65)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                          👔 {venue.dress_code}
+                        </span>
+                      )}
                     </div>
                   )}
                 </div>
