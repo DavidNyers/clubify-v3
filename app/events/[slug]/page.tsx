@@ -9,6 +9,7 @@ import ReviewSection from '@/components/public/ReviewSection'
 import { isFavorited } from '@/lib/actions/user/FavoriteActions'
 import { getReviewStats } from '@/lib/actions/user/ReviewActions'
 import BackButton from '@/components/public/BackButton'
+import TicketPurchaseButton from '@/components/public/TicketPurchaseButton'
 
 // Dummy Stockbild für Events
 const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1540039155732-d68f2c5cb13b?auto=format&fit=crop&q=80&w=2000'
@@ -224,16 +225,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                 </div>
 
                 <div className="sidebar-booking-container" style={{ marginTop: 20 }}>
-                  <button className="sidebar-booking-btn" style={{ 
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, 
-                    width: '100%', padding: '16px', borderRadius: 16, border: 'none', 
-                    background: 'linear-gradient(135deg, #f59e0b, #fbbf24)', color: 'black', 
-                    fontWeight: 900, cursor: 'pointer',
-                    boxShadow: '0 10px 20px -5px rgba(245, 158, 11, 0.3)'
-                  }}>
-                    <Ticket size={18} /> 
-                    {event.ticket_price > 0 ? `Tickets - ${event.ticket_price} ${event.currency}` : 'Kostenloses Ticket sichern'}
-                  </button>
+                  <TicketPurchaseButton eventId={event.id} ticketPrice={event.ticket_price} currency={event.currency} isLoggedIn={!!user} />
                 </div>
                 
               </div>
