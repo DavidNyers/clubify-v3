@@ -75,7 +75,7 @@ export default async function BarsRootPage({ searchParams }: { searchParams: Pro
               Keine Bars gefunden.
             </div>
           ) : (
-            <VenueListClient venues={bars} type="bars" tagKey="music_genres" tagClass="bars-tag" />
+            <VenueListClient venues={bars} type="bars" tagKey="drink_types" tagClass="bars-tag" />
           )}
 
         </div>

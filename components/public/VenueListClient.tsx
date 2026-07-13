@@ -20,6 +20,7 @@ type Venue = {
   featured?: boolean
   images?: string[]
   music_genres?: string[]
+  drink_types?: string[]
   status?: string
   capacity?: number
   review_count?: number
@@ -38,7 +39,7 @@ function haversineKm(lat1: number, lng1: number, lat2: number, lng2: number) {
 interface Props {
   venues: Venue[]
   type: 'clubs' | 'bars'
-  tagKey?: 'music_genres'
+  tagKey?: 'music_genres' | 'drink_types'
   tagClass?: string
 }
 
@@ -75,38 +76,28 @@ function fallbackSort(venues: Venue[]) {
 
 export default function VenueListClient({ venues, type, tagKey = 'music_genres', tagClass = 'clubs-tag' }: Props) {
   const [sorted, setSorted] = useState<(Venue & { distKm?: number })[]>(() => fallbackSort(venues))
+  const [coords, setCoords] = useState<{ lat: number, lng: number } | null>(null)
   const [locating, setLocating] = useState(false)
   const [located, setLocated] = useState(false)
 
+  // 1. Fetch Geolocation (only on mount)
   useEffect(() => {
-    // 1. Try cached location for instant sort
     try {
       const cached = localStorage.getItem('clubify-geo')
       if (cached) {
-        const { lat, lng } = JSON.parse(cached)
-        const withDist = venues.map(v => ({
-          ...v,
-          distKm: v.lat && v.lng ? haversineKm(lat, lng, v.lat, v.lng) : Infinity
-        }))
-        sortVenues(withDist)
-        setSorted(withDist)
+        const parsed = JSON.parse(cached)
+        setCoords(parsed)
         setLocated(true)
       }
     } catch { /* ignore */ }
 
-    // 2. Get fresh position (fast: 5s timeout, accept 10min old cache)
     if (!navigator.geolocation) return
     if (!located) setLocating(true)
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const { latitude: lat, longitude: lng } = pos.coords
         try { localStorage.setItem('clubify-geo', JSON.stringify({ lat, lng })) } catch { /* ignore */ }
-        const withDist = venues.map(v => ({
-          ...v,
-          distKm: v.lat && v.lng ? haversineKm(lat, lng, v.lat, v.lng) : Infinity
-        }))
-        sortVenues(withDist)
-        setSorted(withDist)
+        setCoords({ lat, lng })
         setLocating(false)
         setLocated(true)
       },
@@ -114,6 +105,20 @@ export default function VenueListClient({ venues, type, tagKey = 'music_genres',
       { maximumAge: 600_000, timeout: 5_000, enableHighAccuracy: false }
     )
   }, [])
+
+  // 2. Sort and update listings whenever venues or coordinates change
+  useEffect(() => {
+    if (coords) {
+      const withDist = venues.map(v => ({
+        ...v,
+        distKm: v.lat && v.lng ? haversineKm(coords.lat, coords.lng, v.lat, v.lng) : Infinity
+      }))
+      sortVenues(withDist)
+      setSorted(withDist)
+    } else {
+      setSorted(fallbackSort(venues))
+    }
+  }, [venues, coords])
 
   return (
     <>
@@ -132,7 +137,7 @@ export default function VenueListClient({ venues, type, tagKey = 'music_genres',
       <div className="listings-grid">
         {sorted.map((venue, idx) => {
           const coverImage = venue.images && venue.images.length > 0 ? venue.images[0] : FALLBACK_IMAGE
-          const tags = tagKey === 'music_genres' ? venue.music_genres : []
+          const tags = tagKey === 'music_genres' ? venue.music_genres : (tagKey === 'drink_types' ? venue.drink_types : [])
           const hoverClass = type === 'clubs' ? 'hover-border-violet' : 'hover-border-blue'
           const isLocal = (venue.distKm ?? 999) < 50
           const prevIsLocal = idx > 0 ? (sorted[idx - 1].distKm ?? 999) < 50 : true
