@@ -199,7 +199,7 @@ export default function VenueListClient({ venues, type, tagKey = 'music_genres',
                     {(venue.avg_rating ?? 0) > 0 && (
                       <div className="listing-card-rating">
                         <Star size={10} fill="#f59e0b" style={{ display: 'inline', marginTop: -2 }} />
-                        {' '}{venue.avg_rating}
+                        {' '}{Math.round(Number(venue.avg_rating) * 10) / 10}
                         {venue.review_count !== undefined && venue.review_count > 0 && (
                           <span style={{ opacity: 0.6, fontSize: '0.65rem', marginLeft: 2, fontWeight: 500 }}>
                             ({venue.review_count})

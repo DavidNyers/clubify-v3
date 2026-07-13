@@ -504,7 +504,7 @@ BEGIN
   IF v_club_id IS NOT NULL THEN
     UPDATE public.clubs
     SET 
-      avg_rating = COALESCE((SELECT ROUND(AVG(rating), 2) FROM public.reviews WHERE club_id = v_club_id AND status = 'visible'), 0),
+      avg_rating = COALESCE((SELECT ROUND(AVG(rating), 1) FROM public.reviews WHERE club_id = v_club_id AND status = 'visible'), 0),
       review_count = COALESCE((SELECT COUNT(*) FROM public.reviews WHERE club_id = v_club_id AND status = 'visible'), 0)
     WHERE id = v_club_id;
   END IF;
@@ -512,7 +512,7 @@ BEGIN
   IF v_bar_id IS NOT NULL THEN
     UPDATE public.bars
     SET 
-      avg_rating = COALESCE((SELECT ROUND(AVG(rating), 2) FROM public.reviews WHERE bar_id = v_bar_id AND status = 'visible'), 0),
+      avg_rating = COALESCE((SELECT ROUND(AVG(rating), 1) FROM public.reviews WHERE bar_id = v_bar_id AND status = 'visible'), 0),
       review_count = COALESCE((SELECT COUNT(*) FROM public.reviews WHERE bar_id = v_bar_id AND status = 'visible'), 0)
     WHERE id = v_bar_id;
   END IF;
@@ -520,7 +520,7 @@ BEGIN
   IF v_event_id IS NOT NULL THEN
     UPDATE public.events
     SET 
-      avg_rating = COALESCE((SELECT ROUND(AVG(rating), 2) FROM public.reviews WHERE event_id = v_event_id AND status = 'visible'), 0),
+      avg_rating = COALESCE((SELECT ROUND(AVG(rating), 1) FROM public.reviews WHERE event_id = v_event_id AND status = 'visible'), 0),
       review_count = COALESCE((SELECT COUNT(*) FROM public.reviews WHERE event_id = v_event_id AND status = 'visible'), 0)
     WHERE id = v_event_id;
   END IF;
