@@ -48,7 +48,7 @@ export default function MapView({ clubs, bars, events }: MapViewProps) {
     
     const CLUBS_FALLBACK = 'https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?auto=format&fit=crop&q=80&w=600'
     const BARS_FALLBACK = 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=600'
-    const EVENTS_FALLBACK = 'https://images.unsplash.com/photo-1540039155732-d68f2c5cb13b?auto=format&fit=crop&q=80&w=600'
+    const EVENTS_FALLBACK = 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=600'
 
     if (filter === 'all' || filter === 'clubs') {
       clubs.forEach(c => {

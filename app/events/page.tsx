@@ -7,7 +7,7 @@ import { Suspense } from 'react'
 import SearchInput from '@/components/public/SearchInput'
 
 // Dummy Stockbild für Events
-const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1540039155732-d68f2c5cb13b?auto=format&fit=crop&q=80&w=800'
+const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=800'
 
 export const metadata = {
   title: 'Events — Clubify'
