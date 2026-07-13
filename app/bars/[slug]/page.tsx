@@ -9,6 +9,7 @@ import FavoriteButton from '@/components/public/FavoriteButton'
 import ReviewSection from '@/components/public/ReviewSection'
 import { isFavorited } from '@/lib/actions/user/FavoriteActions'
 import { getReviewStats } from '@/lib/actions/user/ReviewActions'
+import BackButton from '@/components/public/BackButton'
 
 // Dummy Stockbild falls das Array images leer ist
 const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&q=80&w=2000'
@@ -71,9 +72,7 @@ export default async function BarDetailPage({ params }: { params: Promise<{ slug
           <div style={{ position: 'relative', maxWidth: 1200, margin: '0 auto', height: '100%', padding: '0 5%', zIndex: 10 }}>
             {/* Back Button & Favorite */}
             <div style={{ position: 'absolute', top: 90, left: '5%', display: 'flex', gap: 12 }}>
-              <Link href="/map" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#e2e8f0', textDecoration: 'none', background: 'rgba(255,255,255,0.1)', padding: '8px 16px', borderRadius: 20, backdropFilter: 'blur(10px)', fontSize: '0.85rem', fontWeight: 600 }}>
-                <ChevronLeft size={16} /> Zurück zur Karte
-              </Link>
+              <BackButton fallbackPath="/bars" />
               <FavoriteButton targetId={bar.id} type="bar" initialIsFavorited={favorited} />
             </div>
 
@@ -113,7 +112,7 @@ export default async function BarDetailPage({ params }: { params: Promise<{ slug
         <div className="details-grid" style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 5%' }}>
           
           {/* Main Info */}
-          <div>
+          <div className="details-main">
             <div style={{ marginBottom: 40 }}>
               <h2 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: 16, color: '#fff' }}>Über die Bar</h2>
               <p style={{ color: '#a1a1aa', lineHeight: 1.7, fontSize: '1.05rem' }}>
@@ -175,8 +174,8 @@ export default async function BarDetailPage({ params }: { params: Promise<{ slug
           </div>
 
           {/* Sidebar */}
-          <div>
-            <div style={{ background: '#18181b', border: '1px solid #27272a', borderRadius: 20, padding: 24, position: 'sticky', top: 100 }}>
+          <div className="details-sidebar" style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <div style={{ background: '#18181b', border: '1px solid #27272a', borderRadius: 20, padding: 24, position: 'relative' }}>
               <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 24 }}>Bar Details</h3>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
@@ -235,27 +234,24 @@ export default async function BarDetailPage({ params }: { params: Promise<{ slug
                 </div>
 
                 <div style={{ height: 1, background: '#27272a', margin: '8px 0' }} />
-
-                {(bar.website || bar.instagram || bar.phone) && (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                    <div style={{ fontSize: '0.8rem', color: '#a1a1aa', fontWeight: 600, textTransform: 'uppercase' }}>Kontakt & Links</div>
-                    {bar.website && (
-                      <a href={bar.website} target="_blank" rel="noreferrer" className="hover-text-violet" style={{ display: 'flex', gap: 10, alignItems: 'center', color: '#e2e8f0', textDecoration: 'none', fontSize: '0.9rem' }}>
-                        <Globe size={16} /> {bar.website.replace(/^https?:\/\//, '')}
-                      </a>
-                    )}
-                    {bar.instagram && (
-                      <a href={`https://instagram.com/${bar.instagram.replace('@','')}`} target="_blank" rel="noreferrer" className="hover-text-violet" style={{ display: 'flex', gap: 10, alignItems: 'center', color: '#e2e8f0', textDecoration: 'none', fontSize: '0.9rem' }}>
-                        <Camera size={16} /> {bar.instagram}
-                      </a>
-                    )}
-                    {bar.phone && (
-                      <a href={`tel:${bar.phone}`} className="hover-text-violet" style={{ display: 'flex', gap: 10, alignItems: 'center', color: '#e2e8f0', textDecoration: 'none', fontSize: '0.9rem' }}>
-                        <Phone size={16} /> {bar.phone}
-                      </a>
-                    )}
-                  </div>
-                )}
+                
+                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 8 }}>
+                  {bar.website && (
+                    <a href={bar.website} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#e2e8f0', textDecoration: 'none', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', padding: '8px 14px', borderRadius: 12, fontSize: '0.82rem', fontWeight: 600, transition: 'all 0.2s' }} className="hover-bg-elevated">
+                      <Globe size={14} style={{ color: '#3b82f6' }} /> Webseite
+                    </a>
+                  )}
+                  {bar.instagram && (
+                    <a href={`https://instagram.com/${bar.instagram.replace('@', '')}`} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#e2e8f0', textDecoration: 'none', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', padding: '8px 14px', borderRadius: 12, fontSize: '0.82rem', fontWeight: 600, transition: 'all 0.2s' }} className="hover-bg-elevated">
+                      <Camera size={14} style={{ color: '#ec4899' }} /> Instagram
+                    </a>
+                  )}
+                  {bar.phone && (
+                    <a href={`tel:${bar.phone}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#e2e8f0', textDecoration: 'none', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', padding: '8px 14px', borderRadius: 12, fontSize: '0.82rem', fontWeight: 600, transition: 'all 0.2s' }} className="hover-bg-elevated">
+                      <Phone size={14} style={{ color: '#a78bfa' }} /> Anrufen
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
           </div>
