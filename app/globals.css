@@ -445,9 +445,23 @@ h1, h2, h3, h4, h5, h6 {
   gap: 32px;
 }
 
+.details-section {
+  margin-bottom: 40px;
+}
+
 @media (max-width: 767px) {
   .details-hero {
     height: 40vh !important;
+  }
+
+  .details-grid {
+    gap: 24px !important;
+    padding-top: 56px !important; /* More space at the top below the hero section */
+    padding-bottom: 120px !important; /* Extra bottom padding so floating buttons don't overlay content */
+  }
+
+  .details-section {
+    margin-bottom: 24px !important;
   }
 
   .details-sidebar {

@@ -118,7 +118,7 @@ export default async function ClubDetailPage({ params }: { params: Promise<{ slu
           
           {/* Main Info */}
           <div className="details-main">
-            <div style={{ marginBottom: 40 }}>
+            <div className="details-section">
               <h2 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: 16, color: '#fff' }}>Über den Club</h2>
               <p style={{ color: '#a1a1aa', lineHeight: 1.7, fontSize: '1.05rem' }}>
                 {club.description || 'Dieser Club hat noch keine detaillierte Beschreibung hinterlegt, aber die Tanzfläche wartet bereits auf dich.'}
@@ -127,7 +127,7 @@ export default async function ClubDetailPage({ params }: { params: Promise<{ slu
 
             {/* Music Genres */}
             {club.music_genres && club.music_genres.length > 0 && (
-              <div style={{ marginBottom: 40 }}>
+              <div className="details-section">
                 <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
                   <Music size={18} style={{ color: '#ec4899' }} /> Musik Styles
                 </h3>
@@ -142,7 +142,7 @@ export default async function ClubDetailPage({ params }: { params: Promise<{ slu
             )}
 
             {/* Upcoming Events */}
-            <div style={{ marginBottom: 40 }}>
+            <div className="details-section">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 20 }}>
                 <h3 style={{ fontSize: '1.2rem', fontWeight: 800 }}>Anstehende Events</h3>
                 <Link href="#" className="hover-text-violet" style={{ color: '#8b5cf6', fontSize: '0.9rem', fontWeight: 600, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -220,25 +220,28 @@ export default async function ClubDetailPage({ params }: { params: Promise<{ slu
                   </div>
                 </div>
 
-                <div style={{ height: 1, background: '#27272a', margin: '8px 0' }} />
-                
-                <div className="sidebar-social-row" style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 8 }}>
-                  {club.website && (
-                    <a href={club.website} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#e2e8f0', textDecoration: 'none', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', padding: '8px 14px', borderRadius: 12, fontSize: '0.82rem', fontWeight: 600, transition: 'all 0.2s' }} className="hover-bg-elevated">
-                      <Globe size={14} style={{ color: '#a78bfa' }} /> Webseite
-                    </a>
-                  )}
-                  {club.instagram && (
-                    <a href={`https://instagram.com/${club.instagram.replace('@', '')}`} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#e2e8f0', textDecoration: 'none', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', padding: '8px 14px', borderRadius: 12, fontSize: '0.82rem', fontWeight: 600, transition: 'all 0.2s' }} className="hover-bg-elevated">
-                      <Camera size={14} style={{ color: '#ec4899' }} /> Instagram
-                    </a>
-                  )}
-                  {club.phone && (
-                    <a href={`tel:${club.phone}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#e2e8f0', textDecoration: 'none', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', padding: '8px 14px', borderRadius: 12, fontSize: '0.82rem', fontWeight: 600, transition: 'all 0.2s' }} className="hover-bg-elevated">
-                      <Phone size={14} style={{ color: '#3b82f6' }} /> Anrufen
-                    </a>
-                  )}
-                </div>
+                {(club.website || club.instagram || club.phone) && (
+                  <>
+                    <div style={{ height: 1, background: '#27272a', margin: '8px 0' }} className="hide-mobile" />
+                    <div className="sidebar-social-row" style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 8 }}>
+                      {club.website && (
+                        <a href={club.website} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#e2e8f0', textDecoration: 'none', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', padding: '8px 14px', borderRadius: 12, fontSize: '0.82rem', fontWeight: 600, transition: 'all 0.2s' }} className="hover-bg-elevated">
+                          <Globe size={14} style={{ color: '#a78bfa' }} /> Webseite
+                        </a>
+                      )}
+                      {club.instagram && (
+                        <a href={`https://instagram.com/${club.instagram.replace('@', '')}`} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#e2e8f0', textDecoration: 'none', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', padding: '8px 14px', borderRadius: 12, fontSize: '0.82rem', fontWeight: 600, transition: 'all 0.2s' }} className="hover-bg-elevated">
+                          <Camera size={14} style={{ color: '#ec4899' }} /> Instagram
+                        </a>
+                      )}
+                      {club.phone && (
+                        <a href={`tel:${club.phone}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#e2e8f0', textDecoration: 'none', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', padding: '8px 14px', borderRadius: 12, fontSize: '0.82rem', fontWeight: 600, transition: 'all 0.2s' }} className="hover-bg-elevated">
+                          <Phone size={14} style={{ color: '#3b82f6' }} /> Anrufen
+                        </a>
+                      )}
+                    </div>
+                  </>
+                )}
 
                 <TableReservationModal 
                   clubId={club.id} 

@@ -113,7 +113,7 @@ export default async function BarDetailPage({ params }: { params: Promise<{ slug
           
           {/* Main Info */}
           <div className="details-main">
-            <div style={{ marginBottom: 40 }}>
+            <div className="details-section">
               <h2 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: 16, color: '#fff' }}>Über die Bar</h2>
               <p style={{ color: '#a1a1aa', lineHeight: 1.7, fontSize: '1.05rem' }}>
                 {bar.description || 'Diese Bar hat noch keine detaillierte Beschreibung hinterlegt.'}
@@ -122,7 +122,7 @@ export default async function BarDetailPage({ params }: { params: Promise<{ slug
 
             {/* Drink Types stattdessen music_genres */}
             {bar.drink_types && bar.drink_types.length > 0 && (
-              <div style={{ marginBottom: 40 }}>
+              <div className="details-section">
                 <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
                   <GlassWater size={18} style={{ color: '#3b82f6' }} /> Spezialitäten
                 </h3>
@@ -137,7 +137,7 @@ export default async function BarDetailPage({ params }: { params: Promise<{ slug
             )}
 
             {/* Happy Hours / Upcoming */}
-            <div style={{ marginBottom: 40 }}>
+            <div className="details-section">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 20 }}>
                 <h3 style={{ fontSize: '1.2rem', fontWeight: 800 }}>Events & Highlights</h3>
               </div>
@@ -234,25 +234,28 @@ export default async function BarDetailPage({ params }: { params: Promise<{ slug
                    />
                 </div>
 
-                <div style={{ height: 1, background: '#27272a', margin: '8px 0' }} />
-                
-                <div className="sidebar-social-row" style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 8 }}>
-                  {bar.website && (
-                    <a href={bar.website} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#e2e8f0', textDecoration: 'none', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', padding: '8px 14px', borderRadius: 12, fontSize: '0.82rem', fontWeight: 600, transition: 'all 0.2s' }} className="hover-bg-elevated">
-                      <Globe size={14} style={{ color: '#3b82f6' }} /> Webseite
-                    </a>
-                  )}
-                  {bar.instagram && (
-                    <a href={`https://instagram.com/${bar.instagram.replace('@', '')}`} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#e2e8f0', textDecoration: 'none', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', padding: '8px 14px', borderRadius: 12, fontSize: '0.82rem', fontWeight: 600, transition: 'all 0.2s' }} className="hover-bg-elevated">
-                      <Camera size={14} style={{ color: '#ec4899' }} /> Instagram
-                    </a>
-                  )}
-                  {bar.phone && (
-                    <a href={`tel:${bar.phone}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#e2e8f0', textDecoration: 'none', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', padding: '8px 14px', borderRadius: 12, fontSize: '0.82rem', fontWeight: 600, transition: 'all 0.2s' }} className="hover-bg-elevated">
-                      <Phone size={14} style={{ color: '#a78bfa' }} /> Anrufen
-                    </a>
-                  )}
-                </div>
+                {(bar.website || bar.instagram || bar.phone) && (
+                  <>
+                    <div style={{ height: 1, background: '#27272a', margin: '8px 0' }} className="hide-mobile" />
+                    <div className="sidebar-social-row" style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 8 }}>
+                      {bar.website && (
+                        <a href={bar.website} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#e2e8f0', textDecoration: 'none', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', padding: '8px 14px', borderRadius: 12, fontSize: '0.82rem', fontWeight: 600, transition: 'all 0.2s' }} className="hover-bg-elevated">
+                          <Globe size={14} style={{ color: '#3b82f6' }} /> Webseite
+                        </a>
+                      )}
+                      {bar.instagram && (
+                        <a href={`https://instagram.com/${bar.instagram.replace('@', '')}`} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#e2e8f0', textDecoration: 'none', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', padding: '8px 14px', borderRadius: 12, fontSize: '0.82rem', fontWeight: 600, transition: 'all 0.2s' }} className="hover-bg-elevated">
+                          <Camera size={14} style={{ color: '#ec4899' }} /> Instagram
+                        </a>
+                      )}
+                      {bar.phone && (
+                        <a href={`tel:${bar.phone}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#e2e8f0', textDecoration: 'none', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', padding: '8px 14px', borderRadius: 12, fontSize: '0.82rem', fontWeight: 600, transition: 'all 0.2s' }} className="hover-bg-elevated">
+                          <Phone size={14} style={{ color: '#a78bfa' }} /> Anrufen
+                        </a>
+                      )}
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
