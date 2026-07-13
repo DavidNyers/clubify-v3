@@ -59,7 +59,7 @@ export default async function ClubDetailPage({ params }: { params: Promise<{ slu
     <>
       <Navbar user={user} />
       
-      <main style={{ minHeight: '100vh', paddingBottom: 80, background: '#09090b', color: '#f1f5f9' }}>
+      <main className="details-page-main" style={{ minHeight: '100vh', paddingBottom: 80, background: '#09090b', color: '#f1f5f9' }}>
         {/* HERO SECTION */}
         <div className="details-hero" style={{ position: 'relative', width: '100%', height: '55vh', overflow: 'hidden' }}>
           <Image 

@@ -468,11 +468,19 @@ h1, h2, h3, h4, h5, h6 {
   .details-grid {
     gap: 24px !important;
     padding-top: 24px !important; /* Reduced space below the hero section */
-    padding-bottom: 120px !important; /* Extra bottom padding so floating buttons don't overlay content */
+    padding-bottom: 0px !important; /* Reset padding-bottom since spacing safety cushion is now on page-level container */
   }
 
   .details-hero-content {
     bottom: 20px !important;
+  }
+
+  .details-page-main {
+    padding-bottom: 120px !important; /* Moves safety cushion to the very bottom of the page (below reviews) */
+  }
+
+  .details-reviews-wrapper {
+    margin-top: 24px !important; /* Reduce space before reviews section on mobile */
   }
 
   .details-section {

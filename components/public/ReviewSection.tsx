@@ -28,14 +28,14 @@ export default async function ReviewSection({ targetId, targetType, user }: Revi
     .order('created_at', { ascending: false })
 
   return (
-    <div id="reviews" style={{ marginTop: 60 }}>
+    <div id="reviews" className="details-reviews-wrapper" style={{ marginTop: 60 }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 32 }}>
         <div style={{ width: 48, height: 48, borderRadius: 16, background: 'rgba(251, 146, 60, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <MessageSquare size={24} style={{ color: '#fb923c' }} />
         </div>
         <div>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'white' }}>Community & Reviews</h2>
+          <h2 className="details-section-title" style={{ marginBottom: 4 }}>Community & Reviews</h2>
           <p style={{ color: '#a1a1aa', fontSize: '0.9rem' }}>Was andere über diesen Ort sagen</p>
         </div>
       </div>
