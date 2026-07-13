@@ -26,6 +26,8 @@ export default function Navbar({ user }: NavbarProps) {
   const [searchResults, setSearchResults] = useState<any[]>([])
   const pathname = usePathname()
   const router = useRouter()
+  // Pages where the navbar should always be solid (no transparent hero)
+  const alwaysSolid = ['/clubs', '/bars', '/events', '/dashboard', '/profile', '/apply', '/alliance', '/reserve'].some(p => pathname.startsWith(p))
   const supabase = createClient()
   const userMenuRef = useRef<HTMLDivElement>(null)
   const searchRef = useRef<HTMLDivElement>(null)
@@ -138,10 +140,10 @@ export default function Navbar({ user }: NavbarProps) {
         right: 0,
         zIndex: 1000,
         transition: 'all 0.3s ease',
-        ...(scrolled ? {
+        ...(scrolled || alwaysSolid ? {
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          background: 'rgba(9,9,11,0.85)',
+          background: 'rgba(9,9,11,0.95)',
           borderBottom: '1px solid rgba(255,255,255,0.06)',
           boxShadow: '0 4px 30px rgba(0,0,0,0.4)',
         } : {
