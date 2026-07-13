@@ -125,7 +125,7 @@ export default async function EventsRootPage({ searchParams }: { searchParams: P
                         <div className="listing-card-info-row">
                           <MapPin size={12} style={{ flexShrink: 0 }} />
                           <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                            {locationName} {locationCity && `• ${locationCity}`}
+                            {locationCity || 'Unbekannte Stadt'}
                           </span>
                         </div>
 
