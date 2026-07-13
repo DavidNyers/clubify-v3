@@ -1675,17 +1675,20 @@ h1, h2, h3, h4, h5, h6 {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  min-width: 0; /* Important for ellipsis */
-  height: 100px;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .listing-card-title-row {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   gap: 8px;
   min-width: 0;
+  overflow: hidden;
+  width: 100%;
 }
 
 .listing-card-title {
