@@ -227,7 +227,7 @@ export default function Navbar({ user }: NavbarProps) {
               {userMenuOpen && (
                 <div style={{
                   position: 'absolute', top: 'calc(100% + 8px)', right: 0,
-                  minWidth: 200, background: 'rgb(var(--bg-surface))',
+                  minWidth: 240, background: 'rgb(var(--bg-surface))',
                   border: '1px solid rgb(var(--border))', borderRadius: 12,
                   boxShadow: '0 8px 32px rgba(0,0,0,0.4)', overflow: 'hidden',
                   animation: 'fade-in-up 0.15s ease',
@@ -249,10 +249,10 @@ export default function Navbar({ user }: NavbarProps) {
                       flexDirection: 'column',
                       gap: 4
                     }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap' }}>
                         <span>🔥</span> Wien: <strong>{easterStats.wienEvents} Events</strong> diese Woche
                       </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap' }}>
                         <span>💜</span> <strong>{easterStats.favs} Favoriten</strong> gesichert
                       </div>
                     </div>
