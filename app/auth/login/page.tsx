@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -11,12 +11,37 @@ import { getDashboardRoute, type UserRole } from '@/lib/auth/rbac'
 import { Music2, Eye, EyeOff, Loader2 } from 'lucide-react'
 import { trackUserLogin } from '@/lib/actions/auth/TrackingActions'
 
-export default function LoginPage() {
+function LoginPageContent() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const supabase = createClient()
   const [showPassword, setShowPassword] = useState(false)
   const [serverError, setServerError] = useState('')
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    // 1. Read from search params query
+    const errorParam = searchParams.get('error')
+    if (errorParam === 'callback_failed') {
+      setServerError('Der E-Mail-Link ist ungültig oder abgelaufen. Bitte fordere einen neuen Link an.')
+    }
+
+    // 2. Read from hash fragment (client-only Supabase redirects)
+    if (typeof window !== 'undefined' && window.location.hash) {
+      try {
+        const hashParams = new URLSearchParams(window.location.hash.substring(1))
+        const errorCode = hashParams.get('error_code')
+        const errorDesc = hashParams.get('error_description')
+        if (errorCode === 'otp_expired' || errorDesc?.toLowerCase().includes('expired')) {
+          setServerError('Der E-Mail-Link ist abgelaufen oder wurde bereits verwendet. Bitte fordere einen neuen Link an.')
+        } else if (errorCode) {
+          setServerError(`Fehler: ${decodeURIComponent(errorDesc || errorCode).replace(/\+/g, ' ')}`)
+        }
+      } catch (e) {
+        console.error('Failed to parse location hash:', e)
+      }
+    }
+  }, [searchParams])
 
   const { register, handleSubmit, formState: { errors } } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
@@ -156,5 +181,13 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="animated-gradient" style={{ minHeight: '100vh' }} />}>
+      <LoginPageContent />
+    </Suspense>
   )
 }
