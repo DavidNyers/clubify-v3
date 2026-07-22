@@ -61,8 +61,8 @@ export default function ResetPasswordPage() {
       return
     }
 
-    if (password.length < 6) {
-      setServerError('Das Passwort muss mindestens 6 Zeichen lang sein.')
+    if (password.length < 8) {
+      setServerError('Das Passwort muss mindestens 8 Zeichen lang sein.')
       return
     }
 
@@ -162,7 +162,7 @@ export default function ResetPasswordPage() {
                       id="password"
                       type={showPassword ? 'text' : 'password'}
                       className="input"
-                      placeholder="Min. 6 Zeichen"
+                      placeholder="Min. 8 Zeichen"
                       required
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
